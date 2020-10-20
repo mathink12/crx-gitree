@@ -1,0 +1,26 @@
+.colored {
+  /* npm */
+  &.mdi-npm-variant-outline {
+    color: rgb(172, 65, 66);
+  }
+
+  /* js */
+  &.mdi-language-javascript {
+    color: rgb(238, 158, 46)
+  }
+
+  /* babel */
+  &.mdi-babel {
+    color: #F8DB4F;
+  }
+
+  /* git */
+  &.mdi-git {
+    color: #F14932;
+  }
+
+  /* vue */
+  &.mdi-vuejs {
+    color: #4AB884;
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "name": "ToolLab",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "ToolLab",
+  "icons": {
+    "16": "dist/img/icons/gitree-16.png",
+    "48": "dist/img/icons/gitree-38.png",
+    "128": "dist/img/icons/gitree-128.png"
+  },
+  // "default_locale": "zh_CN",
+  "browser_action": {
+    "default_icon": "dist/img/icons/gitree-128.png",
+    // 图标悬停时的标题，可选
+    "default_title": "ToolLab",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      // "matches": ["http://*/*", "https://*/*"],
+      // "<all_urls>" 表示匹配所有地址
+      "matches": [
+        // "<all_urls>"
+        // "https://*.csdn.net/*",
+        // "http://*.csdn.net/*",
+        "https://*.gitee.com/*",
+        "http://*.gitee.com/*"
+      ],
+      // "matches": ["<all_urls>"],
+      // 多个JS按顺序注入
+      "js": [
+        "prepare.js",
+        "dist/js/chunk-vendors.js",
+        "dist/js/app.js"
+      ],
+      "css": [
+        "dist/css/chunk-vendors.css",
+        "dist/css/app.css"
+      ],
+      // 代码注入的时间，
+      // 可选值： "document_start", "document_end", or "document_idle"，
+      // 最后一个表示页面空闲时，默认document_idle
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "contextMenus", // 右键菜单
+    "tabs", // 标签
+    "notifications", // 通知
+    "webRequest", // web请求
+    "webRequestBlocking",
+    "storage", // 插件本地存储
+    "http://*/*", // 可以通过executeScript或者insertCSS访问的网站
+    "https://*/*" // 可以通过executeScript或者insertCSS访问的网站
+  ],
+  // 插件主页
+  "homepage_url": "https://mathink12.github.io/toollab/#/json"
+}
