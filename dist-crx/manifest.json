@@ -30,6 +30,7 @@
       // 多个JS按顺序注入
       "js": [
         "prepare.js",
+        "font-face.js",
         "dist/js/chunk-vendors.js",
         "dist/js/app.js"
       ],
