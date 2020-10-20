@@ -162,7 +162,7 @@ const treeData = [
     size: 2085
   },
   {
-    path: 'd.scss',
+    path: 'abcdefghijklmnopqrstuvwxyz.scss',
     mode: 'd',
     type: 'blob',
     sha: 'd',

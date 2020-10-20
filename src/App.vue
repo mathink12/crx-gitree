@@ -3,8 +3,14 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <!-- <button>Toggle</button> -->
-    <v-btn color="pink" dark @click.stop="drawer = !drawer">
-      Toggle
+    <v-btn
+      :class="{
+        'gitree-toggle': true,
+        'd-none': drawer
+      }"
+      @click.stop="drawer = !drawer"
+      title="点击打开 Gittree">
+      Gitree
     </v-btn>
     <!-- <div style="width: 960px;height: 2000px;background-color: #ddd;margin: 0 auto;">
       <p v-for="i in 200" :key="i" style="text-align: center;">
@@ -13,22 +19,29 @@
     </div> -->
 
     <v-navigation-drawer v-model="drawer" fixed stateless
-      @click.stop
+      @click.native.stop
       style="z-index: 2002;">
-      <v-list-item>
-        <!-- <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-        </v-list-item-avatar> -->
+      <template #prepend>
+        <v-list-item>
+          <!-- <v-list-item-avatar>
+            <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+          </v-list-item-avatar> -->
 
-        <v-list-item-content>
-          <v-list-item-title>{{ ownerRepo }}</v-list-item-title>
-          <v-list-item-subtitle>{{ branch }}</v-list-item-subtitle>
-        </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title>{{ ownerRepo }}</v-list-item-title>
+            <v-list-item-subtitle>{{ branch }}</v-list-item-subtitle>
+          </v-list-item-content>
 
-      </v-list-item>
-
-      <v-divider></v-divider>
-
+          <v-list-item-action>
+            <v-btn icon
+              :title="pin ? '点击取消固定' : '点击固定'"
+              @click="togglePin">
+              <v-icon>{{ pin ? 'mdi-pin' : 'mdi-pin-off' }}</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+        <v-divider />
+      </template>
       <!-- <v-list dense>
         <v-list-item
           v-for="item in items"
@@ -46,6 +59,7 @@
 
       <RepoTree />
       <template #append>
+        <v-divider />
         <v-btn block @click.stop="drawer = false">Collapse</v-btn>
       </template>
     </v-navigation-drawer>
@@ -63,25 +77,34 @@ export default {
   },
   data () {
     return {
-      drawer: true,
+      drawer: false,
+      pin: false, // 是否固定显示侧边栏
       ownerRepo: '', // userName / projectName
       branch: 'master'
     }
   },
   created () {
-    // document.addEventListener('click', this.hideDrawer, false)
+    document.addEventListener('click', this.listenOuterClick, false)
+    this.$on('hook:beforeDestroy', () => {
+      document.removeEventListener('click', this.listenOuterClick)
+    })
   },
   mounted () {
     // TODO: 测试数据
     this.ownerRepo = getOwnerAndRepo().join(' / ') || 'test / repo'
   },
-  beforeDestroy () {
-    // document.removeEventListener('click', this.hideDrawer)
-  },
   methods: {
-    hideDrawer () {
+    onDrawerClick () {
+      console.log('onDrawerClick')
+    },
+    listenOuterClick () {
       console.log('clicked')
+      if (this.pin) return
       this.drawer = false
+    },
+    togglePin () {
+      this.pin = !this.pin
+      // TODO: 写入缓存
     }
   }
 }
@@ -91,5 +114,22 @@ export default {
 #gitee_tree_container {
   font-size: 16px;
   background-color: rgb(250, 251, 252);
+
+  .gitree-toggle {
+    width: 24px;
+    min-width: 24px;
+    font-size: 13px;
+    height: auto;
+    padding: 10px 4px;
+    text-transform: none;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+
+    .v-btn__content {
+      writing-mode: vertical-lr;
+    }
+  }
 }
 </style>

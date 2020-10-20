@@ -1,8 +1,8 @@
 {
-  "name": "ToolLab",
+  "name": "Gitree",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "ToolLab",
+  "description": "Gitree",
   "icons": {
     "16": "dist/img/icons/gitree-16.png",
     "48": "dist/img/icons/gitree-38.png",
@@ -12,7 +12,7 @@
   "browser_action": {
     "default_icon": "dist/img/icons/gitree-128.png",
     // 图标悬停时的标题，可选
-    "default_title": "ToolLab",
+    "default_title": "Gitree",
     "default_popup": "popup.html"
   },
   "content_scripts": [
@@ -43,6 +43,9 @@
       "run_at": "document_end"
     }
   ],
+  "web_accessible_resources": [
+    "dist/fonts/*.*"
+   ],
   "permissions": [
     "contextMenus", // 右键菜单
     "tabs", // 标签

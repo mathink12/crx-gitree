@@ -1,7 +1,6 @@
 <template>
   <v-treeview class="repo-tree"
     :active.sync="active"
-    expand-icon="mdi-chevron-down"
     activatable
     open-on-click
     dense hoverable
@@ -52,6 +51,7 @@ export default {
       active: [],
       open: [],
       treeData: concat(trees, blobs)
+      // treeData: []
     }
   },
   mounted () {
@@ -63,9 +63,9 @@ export default {
 
       const json = [{
         path: 'package.json',
-        mode: '100644',
+        mode: '1006a44',
         type: 'blob',
-        sha: 'f320875d4690c8e885cae26c98683a4a941d9eff',
+        sha: Math.random().toString(),
         size: 1631
       }]
       if (Array.isArray(item.children)) {
@@ -85,9 +85,9 @@ export default {
       })
       this.loading = false
 
-      if (!res.result) return
-
-      console.log(res.data)
+      console.log('=========================================================')
+      this.treeData = this.combTree(res.tree)
+      console.log(this.treeData)
     },
     calcIcon (filename) {
       if (['package.json', 'package-lock.json'].includes(filename)) {
@@ -103,6 +103,22 @@ export default {
       if (/^\.env\.*/.test(filename)) return 'mdi-cogs'
 
       return fileIcons[getFileType(filename)] || 'mdi-file-outline'
+    },
+    combTree (tree) {
+      let trees = []
+      let blobs = []
+      tree.forEach(v => {
+        if (v.type === 'tree') {
+          v.children = []
+          trees.push(v)
+        } else {
+          blobs.push(v)
+        }
+      })
+      trees = sortBy(trees, 'path')
+      blobs = sortBy(blobs, 'path')
+
+      return concat(trees, blobs)
     }
   }
 }
