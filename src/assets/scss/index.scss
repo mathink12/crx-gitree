@@ -1,0 +1,5 @@
+.translate-for-pin {
+  // draw navigation 的宽的一半
+  // 128px === 256px / 2
+  transform: translateX(128px);
+}

@@ -22,7 +22,7 @@
       @mouseleave.native="onMouseLeaveDrawer"
       style="z-index: 2002;">
       <template #prepend>
-        <v-list-item>
+        <v-list-item class="drawer-header">
           <!-- <v-list-item-avatar>
             <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
           </v-list-item-avatar> -->
@@ -34,12 +34,12 @@
 
           <v-list-item-action>
             <v-btn icon
+              color="#fe7300"
               :class="{
                 'tree-pin-icon': true,
                 'tree-pin-icon--pined': pin
               }"
               :title="pin ? '点击取消固定' : '点击固定'"
-              :color="pin ? 'primary' : ''"
               @click="togglePin">
               <v-icon>{{ pin ? 'mdi-pin' : 'mdi-pin-outline' }}</v-icon>
             </v-btn>
@@ -88,6 +88,23 @@ export default {
       ownerRepo: '', // userName / projectName
       branch: 'master',
       pinKey: 'gitree_pin'
+    }
+  },
+  watch: {
+    pin: {
+      immediate: true,
+      handler (val) {
+        console.log(val)
+        if (val) {
+          document.querySelectorAll('.ui.container').forEach(v => {
+            v.classList.add('translate-for-pin')
+          })
+        } else {
+          document.querySelectorAll('.ui.container').forEach(v => {
+            v.classList.remove('translate-for-pin')
+          })
+        }
+      }
     }
   },
   created () {
@@ -142,6 +159,16 @@ export default {
 
     .v-btn__content {
       writing-mode: vertical-lr;
+    }
+  }
+
+  .drawer-header {
+    height: 46px;
+    background-color: #303643 !important;
+    color: rgba(255,255,255,0.8) !important;
+
+    .v-list-item__subtitle {
+      color: rgba(255,255,255,0.6) !important;
     }
   }
 
