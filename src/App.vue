@@ -8,9 +8,9 @@
         'gitree-toggle': true,
         'd-none': drawer
       }"
-      @mouseover.stop="drawer = true"
-      title="点击打开 Gittree">
+      @mouseover.stop="drawer = true">
       Gitree
+      <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
     <!-- <div style="width: 960px;height: 2000px;background-color: #ddd;margin: 0 auto;">
       <p v-for="i in 200" :key="i" style="text-align: center;">
@@ -45,7 +45,7 @@
             </v-btn>
           </v-list-item-action>
         </v-list-item>
-        <v-divider />
+        <!-- <v-divider /> -->
       </template>
       <!-- <v-list dense>
         <v-list-item
@@ -155,7 +155,7 @@ export default {
     position: fixed;
     top: 50%;
     left: 0;
-    transform: translateY(-50%);
+    transform: translateY(-100%) rotate(180deg);
 
     .v-btn__content {
       writing-mode: vertical-lr;
@@ -164,6 +164,7 @@ export default {
 
   .drawer-header {
     height: 46px;
+    min-height: 46px;
     background-color: #303643 !important;
     color: rgba(255,255,255,0.8) !important;
 
