@@ -8,7 +8,7 @@ const fileIcons = {
   ts: 'mdi-language-typescript',
   jpg: 'mdi-file-image',
   png: 'mdi-file-image',
-  gif: 'mdi-file-gif',
+  gif: 'mdi-file-image',
 
   json: 'mdi-json',
   md: 'mdi-markdown',

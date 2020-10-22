@@ -18,4 +18,4 @@ new Vue({
   store,
   vuetify,
   render: h => h(App)
-}).$mount('#gitee_tree_container')
+}).$mount('#gitree_container')

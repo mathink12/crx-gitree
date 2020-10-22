@@ -1,5 +1,5 @@
 <template>
-  <div id="gitee_tree_container" class="v-application">
+  <div id="gitree_container" class="v-application">
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <!-- <button>Toggle</button> -->
@@ -34,9 +34,14 @@
 
           <v-list-item-action>
             <v-btn icon
+              :class="{
+                'tree-pin-icon': true,
+                'tree-pin-icon--pined': pin
+              }"
               :title="pin ? '点击取消固定' : '点击固定'"
+              :color="pin ? 'primary' : ''"
               @click="togglePin">
-              <v-icon>{{ pin ? 'mdi-pin' : 'mdi-pin-off' }}</v-icon>
+              <v-icon>{{ pin ? 'mdi-pin' : 'mdi-pin-outline' }}</v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -111,7 +116,7 @@ export default {
 </script>
 
 <style lang="scss">
-#gitee_tree_container {
+#gitree_container {
   font-size: 16px;
   background-color: rgb(250, 251, 252);
 
@@ -129,6 +134,15 @@ export default {
 
     .v-btn__content {
       writing-mode: vertical-lr;
+    }
+  }
+
+  .tree-pin-icon {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
+    transform: rotate(45deg);
+
+    &--pined {
+      transform: rotate(0);
     }
   }
 }
