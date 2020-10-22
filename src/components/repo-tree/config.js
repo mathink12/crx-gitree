@@ -20,7 +20,10 @@ const fileIcons = {
   eslintrc: 'mdi-eslint',
   eslintignore: 'mdi-eslint',
   babelrc: 'mdi-babel',
-  env: 'mdi-cogs'
+  env: 'mdi-cogs',
+
+  wxml: '',
+  wxss: ''
 }
 
 export {

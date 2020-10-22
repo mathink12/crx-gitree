@@ -7,6 +7,9 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/standard'
   ],
+  globals: {
+    chrome: 'readonly'
+  },
   parserOptions: {
     parser: 'babel-eslint'
   },

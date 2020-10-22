@@ -8,7 +8,7 @@
         'gitree-toggle': true,
         'd-none': drawer
       }"
-      @click.stop="drawer = !drawer"
+      @mouseover.stop="drawer = true"
       title="点击打开 Gittree">
       Gitree
     </v-btn>
@@ -19,7 +19,7 @@
     </div> -->
 
     <v-navigation-drawer v-model="drawer" fixed stateless
-      @click.native.stop
+      @mouseleave.native="onMouseLeaveDrawer"
       style="z-index: 2002;">
       <template #prepend>
         <v-list-item>
@@ -89,27 +89,33 @@ export default {
     }
   },
   created () {
-    document.addEventListener('click', this.listenOuterClick, false)
-    this.$on('hook:beforeDestroy', () => {
-      document.removeEventListener('click', this.listenOuterClick)
-    })
+    try {
+      chrome.storage.sync.get('name', res => {
+        console.log('==== name ====')
+        console.log(res)
+      })
+    } catch (e) {}
   },
   mounted () {
     // TODO: 测试数据
     this.ownerRepo = getOwnerAndRepo().join(' / ') || 'test / repo'
   },
   methods: {
-    onDrawerClick () {
-      console.log('onDrawerClick')
-    },
-    listenOuterClick () {
-      console.log('clicked')
+    onMouseLeaveDrawer () {
       if (this.pin) return
       this.drawer = false
     },
     togglePin () {
       this.pin = !this.pin
       // TODO: 写入缓存
+      // 将存储的内容同步到所有登录了同一账号的 chrome 浏览器中
+      try {
+        chrome.storage.sync.set({
+          name: Math.random()
+        }, (res) => {
+          console.log(res)
+        })
+      } catch (e) {}
     }
   }
 }
