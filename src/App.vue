@@ -73,6 +73,7 @@
 
 <script>
 import { getOwnerAndRepo } from '@/utils'
+import { setCache, getCache } from '@/utils/cache'
 import RepoTree from '@/components/repo-tree/RepoTree'
 
 export default {
@@ -85,16 +86,20 @@ export default {
       drawer: false,
       pin: false, // 是否固定显示侧边栏
       ownerRepo: '', // userName / projectName
-      branch: 'master'
+      branch: 'master',
+      pinKey: 'gitree_pin'
     }
   },
   created () {
-    try {
-      chrome.storage.sync.get('name', res => {
-        console.log('==== name ====')
-        console.log(res)
-      })
-    } catch (e) {}
+    getCache(this.pinKey).then(res => {
+      const pin = Boolean(res)
+      this.pin = pin
+      if (pin) {
+        this.drawer = true
+      }
+    }).catch(() => {
+      console.log('读取 pin 失败！')
+    })
   },
   mounted () {
     // TODO: 测试数据
@@ -107,15 +112,12 @@ export default {
     },
     togglePin () {
       this.pin = !this.pin
-      // TODO: 写入缓存
       // 将存储的内容同步到所有登录了同一账号的 chrome 浏览器中
-      try {
-        chrome.storage.sync.set({
-          name: Math.random()
-        }, (res) => {
-          console.log(res)
+      setCache(this.pinKey, this.pin.toString())
+        .then(() => {})
+        .catch(() => {
+          console.log('写入 pin 失败！')
         })
-      } catch (e) {}
     }
   }
 }
