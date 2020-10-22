@@ -156,6 +156,7 @@ export default {
     top: 50%;
     left: 0;
     transform: translateY(-100%) rotate(180deg);
+    box-shadow: -1px -1px 5px #aaa;
 
     .v-btn__content {
       writing-mode: vertical-lr;
