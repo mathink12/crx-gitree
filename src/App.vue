@@ -109,7 +109,7 @@ export default {
   },
   created () {
     getCache(this.pinKey).then(res => {
-      const pin = Boolean(res)
+      const pin = res === 'true'
       this.pin = pin
       if (pin) {
         this.drawer = true

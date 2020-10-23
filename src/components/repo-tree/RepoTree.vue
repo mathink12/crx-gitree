@@ -92,6 +92,7 @@ export default {
       this.loading = false
 
       console.log('=========================================================')
+      console.log(res)
       const tree = this.combTree(res.tree)
       if (item) {
         if (Array.isArray(item.children)) {

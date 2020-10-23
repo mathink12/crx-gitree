@@ -40,7 +40,7 @@ const getCache = (key) => {
     return new Promise((resolve, reject) => {
       try {
         chrome.storage.sync.get(key, res => {
-          resolve(res)
+          resolve(res[key])
         })
       } catch (e) {
         reject(e)
