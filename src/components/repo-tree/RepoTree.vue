@@ -1,15 +1,16 @@
 <template>
   <v-treeview class="repo-tree"
-    :active.sync="active"
     activatable
     open-on-click
     dense hoverable
     item-key="sha"
     item-text="path"
+    transition
+    :active.sync="active"
     :items="treeData"
     :load-children="loadTree"
     :open.sync="open"
-    transition>
+    @update:active="onActive">
     <template #prepend="{ item, open }">
       <v-icon v-if="item.type === 'tree'" class="mx-1 colored">
         {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
@@ -23,23 +24,24 @@
 
 <script>
 import { concat, sortBy } from 'lodash'
-// import { treeData } from '@/mock'
-import { getFileType, getOwnerAndRepo } from '@/utils'
+import { mapState } from 'vuex'
+import { treeData } from '@/mock'
+import { getFileType } from '@/utils'
 import { getRepoTree } from '@/api/gitee'
 import { fileIcons } from './config'
 
-// let trees = []
-// let blobs = []
-// treeData.forEach(v => {
-//   if (v.type === 'tree') {
-//     v.children = []
-//     trees.push(v)
-//   } else {
-//     blobs.push(v)
-//   }
-// })
-// trees = sortBy(trees, 'path')
-// blobs = sortBy(blobs, 'path')
+let trees = []
+let blobs = []
+treeData.forEach(v => {
+  if (v.type === 'tree') {
+    v.children = []
+    trees.push(v)
+  } else {
+    blobs.push(v)
+  }
+})
+trees = sortBy(trees, 'path')
+blobs = sortBy(blobs, 'path')
 
 // const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -50,14 +52,21 @@ export default {
       loading: false,
       active: [],
       open: [],
-      // treeData: concat(trees, blobs)
-      treeData: []
+      treeData: concat(trees, blobs)
+      // treeData: []
     }
+  },
+  computed: {
+    ...mapState(['ownerAndRepo'])
   },
   mounted () {
     this.getRepoTree()
   },
   methods: {
+    onActive (res) {
+      console.log(res)
+      console.log(this.treeData)
+    },
     async loadTree (item) {
       // await pause(5 * 1000)
 
@@ -69,19 +78,16 @@ export default {
       //   size: 1631
       // }]
 
-      // const res = await this.getRepoTree(item.sha)
-      // const json = res.tree
-      // console.log(json)
-
       // if (Array.isArray(item.children)) {
       //   item.children.push(...json)
       // } else {
       //   item.children = json
       // }
+
       return this.getRepoTree(item.sha, item)
     },
     async getRepoTree (sha = 'master', item) {
-      const [owner, repo] = getOwnerAndRepo()
+      const [owner, repo] = this.ownerAndRepo
 
       this.loading = true
       const res = await getRepoTree({
@@ -93,7 +99,7 @@ export default {
 
       console.log('=========================================================')
       console.log(res)
-      const tree = this.combTree(res.tree)
+      const tree = this.combTree(res.tree, item?.appendPath)
       if (item) {
         if (Array.isArray(item.children)) {
           item.children.push(...tree)
@@ -120,12 +126,13 @@ export default {
 
       return fileIcons[getFileType(filename)] || 'mdi-file-outline'
     },
-    combTree (tree) {
+    combTree (tree, appendPath) {
       if (!Array.isArray(tree)) return []
 
       let trees = []
       let blobs = []
       tree.forEach(v => {
+        v.appendPath = appendPath ? `${appendPath}/${v.path}` : `/${v.path}`
         if (v.type === 'tree') {
           v.children = []
           trees.push(v)

@@ -28,8 +28,8 @@
           </v-list-item-avatar> -->
 
           <v-list-item-content>
-            <v-list-item-title>{{ ownerRepo }}</v-list-item-title>
-            <v-list-item-subtitle>{{ branch }}</v-list-item-subtitle>
+            <v-list-item-title>{{ ownerAndRepo[0] }}</v-list-item-title>
+            <v-list-item-subtitle>{{ ownerAndRepo[1] }}</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -62,7 +62,7 @@
         </v-list-item>
       </v-list> -->
 
-      <RepoTree />
+      <RepoTree v-if="ownerAndRepo.length === 2" />
       <template #append>
         <v-divider />
         <v-btn block @click.stop="drawer = false">Collapse</v-btn>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import { getOwnerAndRepo } from '@/utils'
 import { setCache, getCache } from '@/utils/cache'
 import RepoTree from '@/components/repo-tree/RepoTree'
@@ -85,16 +86,19 @@ export default {
     return {
       drawer: false,
       pin: false, // 是否固定显示侧边栏
-      ownerRepo: '', // userName / projectName
       branch: 'master',
       pinKey: 'gitree_pin'
     }
+  },
+  computed: {
+    ...mapState(['ownerAndRepo'])
   },
   watch: {
     pin: {
       immediate: true,
       handler (val) {
         console.log(val)
+        // 使得网页的内容部分居中
         if (val) {
           document.querySelectorAll('.ui.container').forEach(v => {
             v.classList.add('translate-for-pin')
@@ -119,10 +123,11 @@ export default {
     })
   },
   mounted () {
-    // TODO: 测试数据
-    this.ownerRepo = getOwnerAndRepo().join(' / ') || 'test / repo'
+    const ownerAndRepo = getOwnerAndRepo()
+    this.setOwnerAndRepo(ownerAndRepo)
   },
   methods: {
+    ...mapMutations(['setOwnerAndRepo']),
     onMouseLeaveDrawer () {
       if (this.pin) return
       this.drawer = false
