@@ -6,6 +6,7 @@
     item-key="sha"
     item-text="path"
     transition
+    return-object
     :active.sync="active"
     :items="treeData"
     :load-children="loadTree"
@@ -27,23 +28,8 @@ import { concat, sortBy } from 'lodash'
 import { mapState } from 'vuex'
 import { treeData } from '@/mock'
 import { getFileType } from '@/utils'
-import { getRepoTree } from '@/api/gitee'
+import { getRepoTree, getDomRender } from '@/api/gitee'
 import { fileIcons } from './config'
-
-let trees = []
-let blobs = []
-treeData.forEach(v => {
-  if (v.type === 'tree') {
-    v.children = []
-    trees.push(v)
-  } else {
-    blobs.push(v)
-  }
-})
-trees = sortBy(trees, 'path')
-blobs = sortBy(blobs, 'path')
-
-// const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
   name: 'RepoTree',
@@ -52,37 +38,75 @@ export default {
       loading: false,
       active: [],
       open: [],
-      treeData: concat(trees, blobs)
-      // treeData: []
+      treeData: []
     }
   },
   computed: {
     ...mapState(['ownerAndRepo'])
   },
   mounted () {
-    this.getRepoTree()
+    if (process.env.NODE_ENV === 'development') {
+      let trees = []
+      let blobs = []
+      treeData.forEach(v => {
+        v.treePath = v.path
+        if (v.type === 'tree') {
+          v.children = []
+          trees.push(v)
+        } else {
+          blobs.push(v)
+        }
+      })
+      trees = sortBy(trees, 'path')
+      blobs = sortBy(blobs, 'path')
+      this.treeData = concat(trees, blobs)
+    } else {
+      this.getRepoTree()
+    }
   },
   methods: {
-    onActive (res) {
-      console.log(res)
+    onActive (actives) {
+      const className = 'gitree-async-script'
+      document.querySelectorAll(`.${className}`).forEach(v => {
+        v.parentNode.removeChild(v)
+      })
+
+      console.log(actives)
       console.log(this.treeData)
+      const [owner, repo] = this.ownerAndRepo
+      getDomRender({
+        owner,
+        repo,
+        branch: 'master',
+        treePath: actives[0].treePath
+      }).then(res => {
+        console.log(res)
+        const script = document.createElement('script')
+        script.classList.add(className)
+        const code = document.createTextNode(res)
+        script.appendChild(code)
+        document.body.appendChild(script)
+      })
     },
     async loadTree (item) {
-      // await pause(5 * 1000)
+      if (process.env.NODE_ENV === 'development') {
+        const json = [{
+          // v.treePath = treePath ? `${treePath}/${v.path}` : `/${v.path}`
+          treePath: item.treePath ? `${item.treePath}/package.json` : 'package.json',
+          path: 'package.json',
+          mode: '1006a44',
+          type: 'blob',
+          sha: Math.random().toString(),
+          size: 1631
+        }]
 
-      // const json = [{
-      //   path: 'package.json',
-      //   mode: '1006a44',
-      //   type: 'blob',
-      //   sha: Math.random().toString(),
-      //   size: 1631
-      // }]
-
-      // if (Array.isArray(item.children)) {
-      //   item.children.push(...json)
-      // } else {
-      //   item.children = json
-      // }
+        if (Array.isArray(item.children)) {
+          item.children.push(...json)
+        } else {
+          item.children = json
+        }
+        return
+      }
 
       return this.getRepoTree(item.sha, item)
     },
@@ -99,7 +123,7 @@ export default {
 
       console.log('=========================================================')
       console.log(res)
-      const tree = this.combTree(res.tree, item?.appendPath)
+      const tree = this.combTree(res.tree, item?.treePath)
       if (item) {
         if (Array.isArray(item.children)) {
           item.children.push(...tree)
@@ -126,13 +150,14 @@ export default {
 
       return fileIcons[getFileType(filename)] || 'mdi-file-outline'
     },
-    combTree (tree, appendPath) {
+    // treePath: 'src/main.js'
+    combTree (tree, treePath) {
       if (!Array.isArray(tree)) return []
 
       let trees = []
       let blobs = []
       tree.forEach(v => {
-        v.appendPath = appendPath ? `${appendPath}/${v.path}` : `/${v.path}`
+        v.treePath = treePath ? `${treePath}/${v.path}` : `${v.path}`
         if (v.type === 'tree') {
           v.children = []
           trees.push(v)

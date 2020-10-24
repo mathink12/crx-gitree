@@ -86,7 +86,6 @@ export default {
     return {
       drawer: false,
       pin: false, // 是否固定显示侧边栏
-      branch: 'master',
       pinKey: 'gitree_pin'
     }
   },
@@ -111,20 +110,24 @@ export default {
       }
     }
   },
-  created () {
-    getCache(this.pinKey).then(res => {
-      const pin = res === 'true'
-      this.pin = pin
-      if (pin) {
-        this.drawer = true
-      }
-    }).catch(() => {
-      console.log('读取 pin 失败！')
-    })
-  },
   mounted () {
-    const ownerAndRepo = getOwnerAndRepo()
+    let ownerAndRepo = getOwnerAndRepo()
+    if (process.env.NODE_ENV === 'development') {
+      ownerAndRepo = ['mathink', 'repo']
+    }
     this.setOwnerAndRepo(ownerAndRepo)
+
+    if (ownerAndRepo[0] && ownerAndRepo[1]) {
+      getCache(this.pinKey).then(res => {
+        const pin = res === 'true'
+        this.pin = pin
+        if (pin) {
+          this.drawer = true
+        }
+      }).catch(() => {
+        console.log('读取 pin 失败！')
+      })
+    }
   },
   methods: {
     ...mapMutations(['setOwnerAndRepo']),

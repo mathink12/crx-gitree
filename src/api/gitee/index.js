@@ -13,6 +13,18 @@ const getRepoTree = (params = {}) => {
   return axios.get(url)
 }
 
+const getDomRender = (params = {}) => {
+  const { owner, repo, branch, treePath } = params
+  const url = `/${owner}/${repo}/blob/${branch}/${treePath}?_=${Date.now()}`
+  return axios.get(url, {
+    baseURL: '/',
+    headers: {
+      accept: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'
+    }
+  })
+}
+
 export {
-  getRepoTree
+  getRepoTree,
+  getDomRender
 }
