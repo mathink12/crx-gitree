@@ -28,8 +28,14 @@
           </v-list-item-avatar> -->
 
           <v-list-item-content>
-            <v-list-item-title>{{ ownerAndRepo[0] }}</v-list-item-title>
-            <v-list-item-subtitle>{{ ownerAndRepo[1] }}</v-list-item-subtitle>
+            <v-list-item-title>
+              <v-icon>mdi-book</v-icon>
+              {{ ownerAndRepo.join(' / ') }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              <v-icon>mdi-source-branch</v-icon>
+              {{ branch }}
+            </v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>
@@ -90,7 +96,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['ownerAndRepo'])
+    ...mapState(['ownerAndRepo', 'branch'])
   },
   watch: {
     pin: {
@@ -175,10 +181,27 @@ export default {
     height: 46px;
     min-height: 46px;
     background-color: #303643 !important;
-    color: rgba(255,255,255,0.8) !important;
+    color: #fff !important;
+    padding: 0 8px;
+
+    .v-list-item__title {
+      // font-size: 16px !important;
+      .v-icon {
+        color: #fff !important;
+        font-size: 1rem !important;
+        // font-size: 16px !important;
+      }
+    }
 
     .v-list-item__subtitle {
-      color: rgba(255,255,255,0.6) !important;
+      // font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+
+      .v-icon {
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-size: 0.875rem !important;
+        // font-size: 12px !important;
+      }
     }
   }
 

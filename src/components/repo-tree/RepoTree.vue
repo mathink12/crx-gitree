@@ -13,10 +13,10 @@
     :open.sync="open"
     @update:active="onActive">
     <template #prepend="{ item, open }">
-      <v-icon v-if="item.type === 'tree'" class="mx-1 colored">
+      <v-icon v-if="item.type === 'tree'" class="mr-1 colored">
         {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
       </v-icon>
-      <v-icon v-else class="mx-1 colored">
+      <v-icon v-else class="mr-1 colored">
         {{ calcIcon(item.path) }}
       </v-icon>
     </template>
@@ -177,6 +177,16 @@ export default {
 
 <style lang="scss">
 .repo-tree {
+  font-size: 14px !important;
+
+  .v-icon {
+    font-size: 20px !important;
+  }
+
+  .v-treeview-node__root {
+    min-height: 30px !important;
+  }
+
   // 树结构的图标
   .v-treeview-node__toggle {
     transform: rotate(-90deg);
@@ -184,6 +194,15 @@ export default {
     &--open {
       transform: none !important;
     }
+  }
+
+  .v-treeview-node__toggle {
+    width: 20px;
+  }
+
+  .v-treeview-node__root {
+    padding-left: 4px;
+    padding-right: 4px;
   }
 }
 </style>

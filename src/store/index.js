@@ -5,11 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    ownerAndRepo: []
+    // [owner, repo]
+    ownerAndRepo: [],
+    branch: 'master'
   },
   mutations: {
     setOwnerAndRepo (state, val) {
       state.ownerAndRepo = val || []
+    },
+    setBranch (state, val) {
+      state.branch = val || 'master'
     }
   },
   actions: {
