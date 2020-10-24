@@ -74,18 +74,19 @@ export default {
       console.log(actives)
       console.log(this.treeData)
       const [owner, repo] = this.ownerAndRepo
-      getDomRender({
-        owner,
-        repo,
-        branch: 'master',
-        treePath: actives[0].treePath
-      }).then(res => {
+      const branch = 'master'
+      const { treePath } = actives[0]
+      getDomRender({ owner, repo, branch, treePath }).then(res => {
         console.log(res)
         const script = document.createElement('script')
         script.classList.add(className)
         const code = document.createTextNode(res)
         script.appendChild(code)
         document.body.appendChild(script)
+
+        // TODO: 路由跳转
+        // TODO: 返回后
+        window.history.pushState({}, '', `/${owner}/${repo}/blob/${branch}/${treePath}`)
       })
     },
     async loadTree (item) {
