@@ -40,7 +40,7 @@
 
           <v-list-item-action>
             <v-btn icon
-              color="#fe7300"
+              :color="giteeOrange"
               :class="{
                 'tree-pin-icon': true,
                 'tree-pin-icon--pined': pin
@@ -73,6 +73,21 @@
         <v-divider />
         <v-btn block @click.stop="drawer = false">Collapse</v-btn>
       </template>
+
+      <v-overlay :value="appLoading" class="gitree-loading">
+        <v-progress-circular indeterminate size="50" />
+      </v-overlay>
+
+      <v-snackbar v-model="appSnackbar.show" timeout="3000">
+        {{ appSnackbar.text }}
+
+        <template #action="{ attrs }">
+          <v-btn color="pink" icon v-bind="attrs" @click="hideAppSnackbar">
+            <!-- Close -->
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-navigation-drawer>
   </div>
 </template>
@@ -92,11 +107,12 @@ export default {
     return {
       drawer: false,
       pin: false, // 是否固定显示侧边栏
-      pinKey: 'gitree_pin'
+      pinKey: 'gitree_pin',
+      giteeOrange: '#fe7300'
     }
   },
   computed: {
-    ...mapState(['ownerAndRepo', 'branch'])
+    ...mapState(['appLoading', 'appSnackbar', 'ownerAndRepo', 'branch'])
   },
   watch: {
     pin: {
@@ -136,7 +152,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setOwnerAndRepo']),
+    ...mapMutations(['hideAppSnackbar', 'setOwnerAndRepo']),
     onMouseLeaveDrawer () {
       if (this.pin) return
       this.drawer = false
@@ -218,6 +234,12 @@ export default {
     &--pined {
       transform: rotate(0);
     }
+  }
+
+  .v-snack__wrapper {
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
   }
 }
 </style>

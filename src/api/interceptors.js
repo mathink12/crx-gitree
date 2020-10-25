@@ -132,7 +132,7 @@ const _addResponseInterceptors = () => {
     // 不走 try...catch
     // return Promise.reject(error)
     return {
-      result: false,
+      __gitreeFailed: true,
       type: 'REQUEST_ERROR'
     }
   })

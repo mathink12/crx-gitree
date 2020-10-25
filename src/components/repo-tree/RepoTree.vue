@@ -1,5 +1,6 @@
 <template>
-  <v-treeview class="repo-tree"
+  <v-treeview v-if="Array.isArray(treeData) && treeData.length > 0"
+    class="repo-tree"
     activatable
     open-on-click
     dense hoverable
@@ -19,14 +20,21 @@
       <FileIcon v-else class="mr-1 colored" :filename="item.path" />
     </template>
   </v-treeview>
+  <p v-else class="py-10 text-center">
+    暂无内容，点击
+    <v-btn class="ml-2" color="primary" small @click="getRepoTree">
+      加载
+    </v-btn>
+  </p>
 </template>
 
 <script>
 import { concat, sortBy } from 'lodash'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { treeData } from '@/mock'
 import { getRepoTree, getDomRender } from '@/api/gitee'
 import FileIcon from '@/components/file-icon/FileIcon'
+console.log(treeData)
 
 export default {
   name: 'RepoTree',
@@ -46,6 +54,11 @@ export default {
   },
   mounted () {
     if (process.env.NODE_ENV === 'development') {
+      this.setAppLoading(true)
+      setTimeout(() => {
+        this.setAppLoading(false)
+        this.showAppSnackbar('加载成功')
+      }, 3 * 1000)
       let trees = []
       let blobs = []
       treeData.forEach(v => {
@@ -65,6 +78,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setAppLoading', 'showAppSnackbar']),
     onActive (actives) {
       const className = 'gitree-async-script'
       document.querySelectorAll(`.${className}`).forEach(v => {
@@ -76,8 +90,12 @@ export default {
       const [owner, repo] = this.ownerAndRepo
       const branch = 'master'
       const { treePath } = actives[0]
+
+      this.setAppLoading(true)
       getDomRender({ owner, repo, branch, treePath }).then(res => {
         console.log(res)
+        if (res.__gitreeFailed) return
+
         const script = document.createElement('script')
         script.classList.add(className)
         const code = document.createTextNode(res)
@@ -86,7 +104,13 @@ export default {
 
         // TODO: 路由跳转
         // TODO: 返回后
-        window.history.pushState({}, '', `/${owner}/${repo}/blob/${branch}/${treePath}`)
+        if (process.env.NODE_ENV === 'production') {
+          window.history.pushState({}, '', `/${owner}/${repo}/blob/${branch}/${treePath}`)
+        }
+      }).catch(e => {
+
+      }).finally(() => {
+        this.setAppLoading(false)
       })
     },
     async loadTree (item) {
@@ -114,13 +138,13 @@ export default {
     async getRepoTree (sha = 'master', item) {
       const [owner, repo] = this.ownerAndRepo
 
-      this.loading = true
+      this.setAppLoading(true)
       const res = await getRepoTree({
         owner,
         repo,
         sha
       })
-      this.loading = false
+      this.setAppLoading(false)
 
       console.log('=========================================================')
       console.log(res)
