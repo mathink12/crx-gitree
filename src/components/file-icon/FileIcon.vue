@@ -27,12 +27,14 @@ export default {
     }
   },
   computed: {
+    // 文件扩展名(已转小写), 不含 .
     fileType () {
-      // 文件扩展名, 不含 .
       return getFileType(this.filename)
     },
+    // iconfont
     gitreefontClass () {
-      const { filename, fileType } = this
+      let { filename, fileType } = this
+      filename = filename.toLowerCase()
 
       // postcss
       if (['postcss.config.js'].includes(filename)) return 'gitreepostcss'
@@ -52,6 +54,19 @@ export default {
       // shell
       if (fileType === 'sh') return 'gitreeshell'
 
+      // ini
+      if (fileType === 'ini') return 'gitreeini'
+
+      // jsx
+      if (fileType === 'jsx') return 'gitreejsx'
+
+      // yml, yaml
+      if (['yml', 'yaml'].includes(fileType)) return 'gitreeyaml'
+
+      if (['sass', 'scss'].includes(fileType)) return 'gitreesass'
+
+      if (['ttf', 'woff', 'woff2'].includes(fileType)) return 'gitreefontfile'
+
       // yarn
       if (['yarn.lock', '.yarnrc'].includes(filename)) return 'gitreeyarn'
 
@@ -67,18 +82,23 @@ export default {
       return ''
     },
     mdiIconName () {
-      const { filename, fileType } = this
+      let { filename, fileType } = this
+      filename = filename.toLowerCase()
 
+      // npm
       if (['package.json', 'package-lock.json'].includes(filename)) {
         return 'mdi-npm-variant-outline'
       }
 
-      if (['babel.config.js'].includes(filename)) return 'mdi-babel'
+      // babel
+      if (['babel.config.js', '.babelrc'].includes(filename)) return 'mdi-babel'
 
-      if (['readme.md'].includes(filename.toLowerCase())) {
+      // readme
+      if (['readme.md'].includes(filename)) {
         return 'mdi-book-open-outline'
       }
 
+      // env
       if (/^\.env\.*/.test(filename)) return 'mdi-cogs'
 
       return mdiIcons[fileType] || 'mdi-file-outline'

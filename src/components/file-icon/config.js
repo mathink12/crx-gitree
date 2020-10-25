@@ -36,17 +36,19 @@ const mdiIcons = {
   jpg: 'mdi-file-image',
   png: 'mdi-file-image',
   gif: 'mdi-file-image',
-  webp: '',
+  webp: 'mdi-file-image',
+  svg: 'mdi-svg',
 
   json: 'mdi-json',
   md: 'mdi-markdown',
-  yml: '',
-  yaml: '',
 
   // 其他文件
   pdf: 'mdi-file-pdf',
   txt: 'mdi-file-document-outline',
-  xls: 'mdi-file-excel',
+  xls: 'mdi-file-excel-box',
+  xlsx: 'mdi-file-excel-box',
+  doc: 'mdi-file-word-box',
+  docx: 'mdi-file-word-box',
 
   gitignore: 'mdi-git',
   eslintrc: 'mdi-eslint',

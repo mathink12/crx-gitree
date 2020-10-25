@@ -1,4 +1,9 @@
 .colored {
+  &.mdi-folder,
+  &.mdi-folder-open {
+    color: #6CB5FE;
+  }
+
   /* npm */
   &.mdi-npm-variant-outline {
     color: rgb(172, 65, 66);
@@ -7,6 +12,10 @@
   /* js */
   &.mdi-language-javascript {
     color: rgb(238, 158, 46)
+  }
+
+  &.mdi-language-typescript {
+    color: #0074C1;
   }
 
   /* babel */
@@ -22,5 +31,73 @@
   /* vue */
   &.mdi-vuejs {
     color: #4AB884;
+  }
+
+  &.mdi-svg {
+    color: #B55B29;
+  }
+
+  &.mdi-file-image {
+    color: #55861D;
+  }
+
+  &.mdi-language-html5 {
+    color: #FC490B;
+  }
+
+  &.mdi-language-css3 {
+    color: #42A5F5;
+  }
+
+  &.gitreepostcss {
+    color: #D33534;
+  }
+
+  &.gitreegrunt {
+    color: #FBA919;
+  }
+
+  &.gitreegulp {
+    color: #DA4648;
+  }
+
+  &.gitreeprettier {
+    color: #EA5E5E;
+  }
+
+  &.gitreeshell {
+    color: #6AAB20;
+  }
+
+  &.gitreeyaml {
+    // color: ;
+  }
+
+  &.gitreeyarn {
+    color: #2C8EBB;
+  }
+
+  &.gitreebrowserslist {
+    color: #FFCA28;
+  }
+
+  &.gitreeeditorconfig {
+    color: #B37622;
+  }
+
+  &.gitreejest {
+    color: #D52A29;
+  }
+
+  &.gitreesass {
+    color: #cc6699;
+  }
+
+  &.gitreefontfile {
+    color: #55861D;
+  }
+
+  &.gitreejsx {
+    color: #45C0E7;
   }
 }

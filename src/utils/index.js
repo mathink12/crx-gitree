@@ -4,7 +4,6 @@
  * @author wangk 2020-10-16T18:13:44+0800
  * @return {Array} [owner, repo]
  */
-
 const getOwnerAndRepo = () => {
   let res = []
   const reg = /gitee\.com\/[^/]+\/[^/]+/
@@ -24,7 +23,7 @@ const getOwnerAndRepo = () => {
  */
 const getFileType = filename => {
   const index = filename.lastIndexOf('.')
-  return filename.slice(index + 1)
+  return filename.slice(index + 1).toLowerCase()
 }
 
 export {

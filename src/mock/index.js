@@ -167,6 +167,13 @@ const treeData = [
     type: 'blob',
     sha: 'd',
     size: 2085
+  },
+  {
+    path: 'asdad.jsx',
+    mode: 'd',
+    type: 'blob',
+    sha: 'asdad',
+    size: 2085
   }
 ]
 
