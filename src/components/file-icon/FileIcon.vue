@@ -1,16 +1,12 @@
 <template>
-  <i v-if="gitreefontClass"
-    class="gitreefont"
-    :class="gitreefontClass">
-  </i>
-  <v-icon v-else>
-    {{ mdiIconName }}
-  </v-icon>
+  <svg class="gitreefont" aria-hidden="true">
+    <use :xlink:href="`#${fontName}`"></use>
+  </svg>
 </template>
 
 <script>
+import { gitreeIcons } from './config'
 import { getFileType } from '@/utils'
-import { mdiIcons } from './config'
 
 export default {
   name: 'FileIcon',
@@ -23,7 +19,7 @@ export default {
   data () {
     return {
       // mdi: true,
-      // gitreefontClass: ''
+      // fontName: ''
     }
   },
   computed: {
@@ -32,77 +28,80 @@ export default {
       return getFileType(this.filename)
     },
     // iconfont
-    gitreefontClass () {
-      let { filename, fileType } = this
-      filename = filename.toLowerCase()
-
-      // postcss
-      if (['postcss.config.js'].includes(filename)) return 'gitreepostcss'
-
-      // grunt
-      if (['gruntfile.js'].includes(filename)) return 'gitreegrunt'
-
-      // gulp
-      if (['gulpfile.js'].includes(filename)) return 'gitreegulp'
-
-      // prettier
-      if (['prettier.config.js'].includes(filename)) return 'gitreeprettier'
-
-      // ci
-      // travis
-
-      // shell
-      if (fileType === 'sh') return 'gitreeshell'
-
-      // ini
-      if (fileType === 'ini') return 'gitreeini'
-
-      // jsx
-      if (fileType === 'jsx') return 'gitreejsx'
-
-      // yml, yaml
-      if (['yml', 'yaml'].includes(fileType)) return 'gitreeyaml'
-
-      if (['sass', 'scss'].includes(fileType)) return 'gitreesass'
-
-      if (['ttf', 'woff', 'woff2'].includes(fileType)) return 'gitreefontfile'
-
-      // yarn
-      if (['yarn.lock', '.yarnrc'].includes(filename)) return 'gitreeyarn'
-
-      // browserslist
-      if (['.browserslistrc'].includes(filename)) return 'gitreebrowserslist'
-
-      // editorconfig
-      if (['.editorconfig'].includes(filename)) return 'gitreeeditorconfig'
-
-      // jest
-      if (['jest.config.js'].includes(filename)) return 'gitreejest'
-
-      return ''
-    },
-    mdiIconName () {
-      let { filename, fileType } = this
-      filename = filename.toLowerCase()
+    fontName () {
+      const filename = this.filename.toLowerCase()
 
       // npm
-      if (['package.json', 'package-lock.json'].includes(filename)) {
-        return 'mdi-npm-variant-outline'
+      if (['package.json', 'package-lock.json', '.npmignore'].includes(filename)) {
+        return 'gitree-npm'
       }
 
       // babel
-      if (['babel.config.js', '.babelrc'].includes(filename)) return 'mdi-babel'
+      if (['babel.config.js'].includes(filename)) return 'gitree-babel'
+
+      // webpack
+      if (/\bwebpack\b.{0,}\.(js|ts)$/.test(filename)) return 'gitree-webpack'
+
+      // eslint
+      if (['.eslintrc.js'].includes(filename)) return 'gitree-eslint'
 
       // readme
-      if (['readme.md'].includes(filename)) {
-        return 'mdi-book-open-outline'
-      }
+      if (['readme.md'].includes(filename)) return 'gitree-book'
+
+      // postcss
+      if (['postcss.config.js'].includes(filename)) return 'gitree-postcss'
+
+      // grunt
+      if (['gruntfile.js'].includes(filename)) return 'gitree-grunt'
+
+      // gulp
+      if (['gulpfile.js'].includes(filename)) return 'gitree-gulp'
+
+      // prettier
+      if (['prettier.config.js'].includes(filename)) return 'gitree-prettier'
+
+      // travis
+      if (['.travis.yml'].includes(filename)) return 'gitree-travis'
+
+      // yarn
+      if (['yarn.lock', '.yarnrc'].includes(filename)) return 'gitree-yarn'
+
+      // browserslist
+      if (['.browserslistrc'].includes(filename)) return 'gitree-browserslist'
+
+      // editorconfig
+      if (['.editorconfig'].includes(filename)) return 'gitree-editorconfig'
+
+      // jest
+      if (['jest.config.js'].includes(filename)) return 'gitree-jest'
+
+      // bower
+      if (['bower.json'].includes(filename)) return 'gitree-bower'
+
+      // karma
+      if (/\bkarma\b.{0,}\.(js|ts)$/.test(filename)) return 'gitree-karma'
+
+      // makefile
+      if (['makefile'].includes(filename)) return 'gitree-makefile'
+
+      // license
+      if (['license'].includes(filename)) return 'gitree-license'
 
       // env
-      if (/^\.env\.*/.test(filename)) return 'mdi-cogs'
+      if (/^\.env\.*/.test(filename)) return 'gitree-env'
 
-      return mdiIcons[fileType] || 'mdi-file-outline'
+      return gitreeIcons[this.fileType] || 'gitree-file'
     }
   }
 }
 </script>
+
+<style lang="scss">
+.gitreefont {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+</style>

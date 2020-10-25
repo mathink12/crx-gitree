@@ -174,6 +174,41 @@ const treeData = [
     type: 'blob',
     sha: 'asdad',
     size: 2085
+  },
+  {
+    path: 'bower.json',
+    mode: 'd',
+    type: 'blob',
+    sha: 'asdaasasd',
+    size: 2085
+  },
+  {
+    path: 'gruntfile.js',
+    mode: 'd',
+    type: 'blob',
+    sha: 'gruntfile',
+    size: 2085
+  },
+  {
+    path: 'gulpfile.js',
+    mode: 'd',
+    type: 'blob',
+    sha: 'gulpfile',
+    size: 2085
+  },
+  {
+    path: 'webpack.dev.js',
+    mode: 'd',
+    type: 'blob',
+    sha: 'webpack.dev',
+    size: 2085
+  },
+  {
+    path: 'prettier.config.js',
+    mode: 'd',
+    type: 'blob',
+    sha: 'prettier.config',
+    size: 2085
   }
 ]
 

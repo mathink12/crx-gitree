@@ -49,6 +49,14 @@
     color: #42A5F5;
   }
 
+  &.mdi-eslint {
+    color: #6050B1;
+  }
+
+  &.mdi-webpack {
+    color: #1C78C0;
+  }
+
   &.gitreepostcss {
     color: #D33534;
   }
@@ -99,5 +107,17 @@
 
   &.gitreejsx {
     color: #45C0E7;
+  }
+
+  &.gitreebower {
+    // color: #543729;
+  }
+
+  &.gitreekarma {
+    color: #3CBEAE;
+  }
+
+  &.gitreemakefile {
+    color: #EF5350;
   }
 }

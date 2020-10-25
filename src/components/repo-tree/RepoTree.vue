@@ -168,6 +168,10 @@ export default {
     font-size: 20px !important;
   }
 
+  .v-treeview-node__level {
+    width: 20px;
+  }
+
   .v-treeview-node__root {
     min-height: 30px !important;
   }

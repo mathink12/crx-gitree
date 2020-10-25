@@ -1,70 +1,81 @@
-const mdiIcons = {
+const gitreeIcons = {
   // languages
-  c: 'mdi-language-c',
-  cpp: 'mdi-language-cpp',
-  cs: 'mdi-language-csharp',
-  css: 'mdi-language-css3',
-  f90: 'mdi-language-fortran',
-  f95: 'mdi-language-fortran',
-  for: 'mdi-language-fortran',
-  f: 'mdi-language-fortran',
-  go: 'mdi-language-go',
-  hs: 'mdi-language-haskell',
-  html: 'mdi-language-html5',
-  java: 'mdi-language-java',
-  js: 'mdi-language-javascript',
-  kt: 'mdi-language-kotlin',
-  kts: 'mdi-language-kotlin',
-  lua: 'mdi-language-lua',
-  php: 'mdi-language-php',
-  py: 'mdi-language-python',
-  r: 'mdi-language-r',
-  rb: 'mdi-language-ruby',
-  swift: 'mdi-language-swift',
-  ts: 'mdi-language-typescript',
-  xaml: 'mdi-language-xaml',
+  c: 'gitree-c',
+  cpp: 'gitree-cpp',
+  cs: 'gitree-csharp',
+  css: 'gitree-css3',
+  f90: 'gitree-fortran',
+  f95: 'gitree-fortran',
+  for: 'gitree-fortran',
+  f: 'gitree-fortran',
+  go: 'gitree-go',
+  hs: 'gitree-haskell',
+  html: 'gitree-html',
+  java: 'gitree-java',
+  js: 'gitree-js',
+  kt: 'gitree-kotlin',
+  kts: 'gitree-kotlin',
+  lua: 'gitree-lua',
+  php: 'gitree-php',
+  py: 'gitree-python',
+  r: 'gitree-r',
+  rb: 'gitree-ruby',
+  swift: 'gitree-swift',
+  ts: 'gitree-ts',
+  xaml: 'gitree-xaml',
+  sh: 'gitree-shell',
 
-  scss: 'mdi-sass',
-  sass: 'mdi-sass',
-  vue: 'mdi-vuejs',
-  jsx: '',
+  scss: 'gitree-sass',
+  sass: 'gitree-sass',
+  vue: 'gitree-vue',
+  jsx: 'gitree-jsx',
   tsx: '',
 
-  ini: '',
+  ini: 'gitree-ini',
+  yml: 'gitree-yml',
+  yaml: 'gitree-yml',
+
+  // 字体文件
+  eot: 'gitree-fontfile',
+  ttf: 'gitree-fontfile',
+  woff: 'gitree-fontfile',
+  woff2: 'gitree-fontfile',
 
   // 图片
-  jpg: 'mdi-file-image',
-  png: 'mdi-file-image',
-  gif: 'mdi-file-image',
-  webp: 'mdi-file-image',
-  svg: 'mdi-svg',
+  jpg: 'gitree-image',
+  png: 'gitree-image',
+  gif: 'gitree-image',
+  webp: 'gitree-image',
+  ico: 'gitree-image',
+  svg: 'gitree-svg',
 
-  json: 'mdi-json',
-  md: 'mdi-markdown',
+  json: 'gitree-json',
+  md: 'gitree-markdown',
 
   // 其他文件
-  pdf: 'mdi-file-pdf',
-  txt: 'mdi-file-document-outline',
-  xls: 'mdi-file-excel-box',
-  xlsx: 'mdi-file-excel-box',
-  doc: 'mdi-file-word-box',
-  docx: 'mdi-file-word-box',
+  pdf: 'gitree-pdf',
+  txt: 'gitree-txt',
+  xls: 'gitree-xlsx',
+  xlsx: 'gitree-xlsx',
+  doc: 'gitree-docx',
+  docx: 'gitree-docx',
 
-  gitignore: 'mdi-git',
-  eslintrc: 'mdi-eslint',
-  eslintignore: 'mdi-eslint',
-  babelrc: 'mdi-babel',
-  env: 'mdi-cogs',
+  gitignore: 'gitree-git',
+  gitattributes: 'gitree-git',
+  eslintrc: 'gitree-eslint',
+  eslintignore: 'gitree-eslint',
+  babelrc: 'gitree-babel',
+  env: 'gitree-env',
 
   // 构建工具
 
   // 微信文件
-  wxml: '',
-  wxss: ''
+  wxml: 'gitree-wxml',
+  wxss: 'gitree-wxss'
 }
 
 // const
 
 export {
-  mdiIcons
+  gitreeIcons
 }

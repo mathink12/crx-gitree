@@ -1,0 +1,331 @@
+{
+  "id": "2148156",
+  "name": "crx-gitree",
+  "font_family": "gitreefont",
+  "css_prefix_text": "gitree-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7730017",
+      "name": "file_type_wxml",
+      "font_class": "wxml",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
+      "icon_id": "8675639",
+      "name": "file_type_wxss",
+      "font_class": "wxss",
+      "unicode": "e726",
+      "unicode_decimal": 59174
+    },
+    {
+      "icon_id": "736580",
+      "name": "book",
+      "font_class": "book",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "6496025",
+      "name": "Webpack",
+      "font_class": "webpack",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "12659683",
+      "name": "env",
+      "font_class": "env",
+      "unicode": "e9f7",
+      "unicode_decimal": 59895
+    },
+    {
+      "icon_id": "13303947",
+      "name": "npm",
+      "font_class": "npm",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "5297060",
+      "name": "license",
+      "font_class": "license",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "5634973",
+      "name": "file",
+      "font_class": "file",
+      "unicode": "f291",
+      "unicode_decimal": 62097
+    },
+    {
+      "icon_id": "13304126",
+      "name": "travis",
+      "font_class": "travis",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    },
+    {
+      "icon_id": "12202448",
+      "name": "yml-icon-active",
+      "font_class": "yml",
+      "unicode": "e80d",
+      "unicode_decimal": 59405
+    },
+    {
+      "icon_id": "15378706",
+      "name": "prettier",
+      "font_class": "prettier",
+      "unicode": "ec5f",
+      "unicode_decimal": 60511
+    },
+    {
+      "icon_id": "128887",
+      "name": "css3",
+      "font_class": "css3",
+      "unicode": "e753",
+      "unicode_decimal": 59219
+    },
+    {
+      "icon_id": "129221",
+      "name": "svg",
+      "font_class": "svg",
+      "unicode": "e891",
+      "unicode_decimal": 59537
+    },
+    {
+      "icon_id": "4318810",
+      "name": "docx",
+      "font_class": "docx",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "4318817",
+      "name": "xlsx",
+      "font_class": "xlsx",
+      "unicode": "e6c4",
+      "unicode_decimal": 59076
+    },
+    {
+      "icon_id": "6233095",
+      "name": "TXT图标",
+      "font_class": "txt",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "10793061",
+      "name": "markdown",
+      "font_class": "markdown",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "12600727",
+      "name": "html",
+      "font_class": "html",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "12601045",
+      "name": "c",
+      "font_class": "c",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    },
+    {
+      "icon_id": "13302950",
+      "name": "babel",
+      "font_class": "babel",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "13303093",
+      "name": "eslint",
+      "font_class": "eslint",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "13303099",
+      "name": "cpp",
+      "font_class": "cpp",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "13303104",
+      "name": "csharp",
+      "font_class": "csharp",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "13303493",
+      "name": "git",
+      "font_class": "git",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "13303553",
+      "name": "image",
+      "font_class": "image",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "13303952",
+      "name": "pdf",
+      "font_class": "pdf",
+      "unicode": "e687",
+      "unicode_decimal": 59015
+    },
+    {
+      "icon_id": "13304114",
+      "name": "typescript",
+      "font_class": "ts",
+      "unicode": "e6a3",
+      "unicode_decimal": 59043
+    },
+    {
+      "icon_id": "13304145",
+      "name": "vue",
+      "font_class": "vue",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "15378494",
+      "name": "javascript",
+      "font_class": "js",
+      "unicode": "ebd8",
+      "unicode_decimal": 60376
+    },
+    {
+      "icon_id": "15378506",
+      "name": "json",
+      "font_class": "json",
+      "unicode": "ebde",
+      "unicode_decimal": 60382
+    },
+    {
+      "icon_id": "13302963",
+      "name": "bower",
+      "font_class": "bower",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "13303545",
+      "name": "makefile",
+      "font_class": "makefile",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "13303609",
+      "name": "karma",
+      "font_class": "karma",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "5824317",
+      "name": "browserslist",
+      "font_class": "browserslist",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "13304056",
+      "name": "sass",
+      "font_class": "sass",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "128966",
+      "name": "font-size",
+      "font_class": "fontfile",
+      "unicode": "e7a1",
+      "unicode_decimal": 59297
+    },
+    {
+      "icon_id": "5008319",
+      "name": "ini",
+      "font_class": "ini",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "12202399",
+      "name": "jsx-icon-active",
+      "font_class": "jsx",
+      "unicode": "e803",
+      "unicode_decimal": 59395
+    },
+    {
+      "icon_id": "5824479",
+      "name": "postcss",
+      "font_class": "postcss",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "6817690",
+      "name": "grunt",
+      "font_class": "grunt",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "7086638",
+      "name": "gulp-logo",
+      "font_class": "gulp",
+      "unicode": "e689",
+      "unicode_decimal": 59017
+    },
+    {
+      "icon_id": "9714942",
+      "name": "CI",
+      "font_class": "ci",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "12904218",
+      "name": "shell",
+      "font_class": "shell",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "13304153",
+      "name": "yarn",
+      "font_class": "yarn",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "5824354",
+      "name": "editorconfig",
+      "font_class": "editorconfig",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "5824399",
+      "name": "jest",
+      "font_class": "jest",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    }
+  ]
+}
