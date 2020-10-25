@@ -31,7 +31,7 @@
       "js": [
         "prepare.js",
         "font-face.js",
-        "iconfont/iconfont.js",
+        "dist/iconfont/iconfont.js",
         "dist/js/chunk-vendors.js",
         "dist/js/app.js"
       ],
@@ -46,9 +46,9 @@
     }
   ],
   "web_accessible_resources": [
-    "*",
-    "iconfont/*",
-    "dist/fonts/*.*"
+    "dist/iconfont/*",
+    "dist/fonts/*.*",
+    "*"
    ],
   "permissions": [
     "contextMenus", // 右键菜单
