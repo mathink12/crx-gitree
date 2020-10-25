@@ -16,9 +16,7 @@
       <v-icon v-if="item.type === 'tree'" class="mr-1 colored">
         {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
       </v-icon>
-      <v-icon v-else class="mr-1 colored">
-        {{ calcIcon(item.path) }}
-      </v-icon>
+      <FileIcon v-else class="mr-1 colored" :filename="item.path" />
     </template>
   </v-treeview>
 </template>
@@ -27,12 +25,14 @@
 import { concat, sortBy } from 'lodash'
 import { mapState } from 'vuex'
 import { treeData } from '@/mock'
-import { getFileType } from '@/utils'
 import { getRepoTree, getDomRender } from '@/api/gitee'
-import { fileIcons } from './config'
+import FileIcon from '@/components/file-icon/FileIcon'
 
 export default {
   name: 'RepoTree',
+  components: {
+    FileIcon
+  },
   data () {
     return {
       loading: false,
@@ -136,21 +136,6 @@ export default {
       }
       console.log(this.treeData)
     },
-    calcIcon (filename) {
-      if (['package.json', 'package-lock.json'].includes(filename)) {
-        return 'mdi-npm-variant-outline'
-      }
-
-      if (['babel.config.js'].includes(filename)) return 'mdi-babel'
-
-      if (['readme.md'].includes(filename.toLowerCase())) {
-        return 'mdi-book-open-outline'
-      }
-
-      if (/^\.env\.*/.test(filename)) return 'mdi-cogs'
-
-      return fileIcons[getFileType(filename)] || 'mdi-file-outline'
-    },
     // treePath: 'src/main.js'
     combTree (tree, treePath) {
       if (!Array.isArray(tree)) return []
@@ -203,6 +188,11 @@ export default {
   .v-treeview-node__root {
     padding-left: 4px;
     padding-right: 4px;
+  }
+
+  .gitreefont {
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.54);
   }
 }
 </style>

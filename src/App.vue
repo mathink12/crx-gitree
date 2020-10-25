@@ -29,11 +29,11 @@
 
           <v-list-item-content>
             <v-list-item-title>
-              <v-icon>mdi-book</v-icon>
+              <v-icon class="mr-1">mdi-book</v-icon>
               {{ ownerAndRepo.join(' / ') }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              <v-icon>mdi-source-branch</v-icon>
+              <v-icon class="mr-1">mdi-source-branch</v-icon>
               {{ branch }}
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -185,22 +185,28 @@ export default {
     padding: 0 8px;
 
     .v-list-item__title {
-      // font-size: 16px !important;
+      font-size: 14px !important;
+      line-height: 14px !important;
+      display: flex;
+      align-items: center;
       .v-icon {
         color: #fff !important;
-        font-size: 1rem !important;
-        // font-size: 16px !important;
+        // font-size: 1rem !important;
+        font-size: 14px !important;
       }
     }
 
     .v-list-item__subtitle {
-      // font-size: 14px !important;
-      color: rgba(255, 255, 255, 0.8) !important;
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-size: 12px !important;
+      line-height: 12px !important;
+      display: flex;
+      align-items: center;
 
       .v-icon {
         color: rgba(255, 255, 255, 0.8) !important;
         font-size: 0.875rem !important;
-        // font-size: 12px !important;
+        font-size: 12px !important;
       }
     }
   }
