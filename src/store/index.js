@@ -10,9 +10,13 @@ export default new Vuex.Store({
       show: false,
       text: '提示'
     },
-    // [owner, repo]
-    ownerAndRepo: [],
-    branch: 'master'
+    repoData: {
+      owner: '', // 当前仓库的所有者
+      repo: '', // 当前仓库名
+      defaultBranch: '', // 当前仓库的默认分支
+      activeBranch: '', // 当前仓库的活动分支
+      branches: [] // 当前仓库的所有分支
+    }
   },
   mutations: {
     setAppLoading (state, val) {
@@ -32,6 +36,9 @@ export default new Vuex.Store({
     },
     setBranch (state, val) {
       state.branch = val || 'master'
+    },
+    setRepoData (state, val) {
+      state.repoData = val
     }
   },
   actions: {

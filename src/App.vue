@@ -30,11 +30,11 @@
           <v-list-item-content>
             <v-list-item-title>
               <v-icon class="mr-1">mdi-book</v-icon>
-              {{ ownerAndRepo.join(' / ') }}
+              {{ repoData.owner }} / {{ repoData.repo }}
             </v-list-item-title>
             <v-list-item-subtitle>
               <v-icon class="mr-1">mdi-source-branch</v-icon>
-              {{ branch }}
+              {{ repoData.activeBranch }}
             </v-list-item-subtitle>
           </v-list-item-content>
 
@@ -68,7 +68,7 @@
         </v-list-item>
       </v-list> -->
 
-      <RepoTree v-if="ownerAndRepo.length === 2" />
+      <RepoTree v-if="repoData.owner && repoData.repo" />
       <template #append>
         <v-divider />
         <v-btn block @click.stop="drawer = false">Collapse</v-btn>
@@ -94,8 +94,8 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { getOwnerAndRepo } from '@/utils'
 import { setCache, getCache } from '@/utils/cache'
+import { getOwnerRepo, getRepoBranches } from '@/api/gitee'
 import RepoTree from '@/components/repo-tree/RepoTree'
 
 export default {
@@ -112,7 +112,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['appLoading', 'appSnackbar', 'ownerAndRepo', 'branch'])
+    ...mapState(['appLoading', 'appSnackbar', 'repoData'])
   },
   watch: {
     pin: {
@@ -130,16 +130,11 @@ export default {
           })
         }
       }
-    }
-  },
-  mounted () {
-    let ownerAndRepo = getOwnerAndRepo()
-    if (process.env.NODE_ENV === 'development') {
-      ownerAndRepo = ['mathink', 'repo']
-    }
-    this.setOwnerAndRepo(ownerAndRepo)
+    },
+    repoData ({ owner, repo }) {
+      if (!owner || !repo) return
 
-    if (ownerAndRepo[0] && ownerAndRepo[1]) {
+      // 当有仓库数据时, 才判断是否要展开 drawer
       getCache(this.pinKey).then(res => {
         const pin = res === 'true'
         this.pin = pin
@@ -151,8 +146,21 @@ export default {
       })
     }
   },
+  mounted () {
+    // pathname: /owner/repo[/branch]
+    const pathnames = window.location.pathname.split('/')
+    // branch 中可能含有 '/', 这里只取前两层
+    const owner = pathnames[1]
+    const repo = pathnames[2]
+
+    // 此时的页面应该不是仓库页面
+    if (!repo) return
+
+    // 可能是仓库页面, 则查询仓库相关信息
+    this.getBaseData(owner, repo)
+  },
   methods: {
-    ...mapMutations(['hideAppSnackbar', 'setOwnerAndRepo']),
+    ...mapMutations(['setAppLoading', 'hideAppSnackbar', 'setRepoData']),
     onMouseLeaveDrawer () {
       if (this.pin) return
       this.drawer = false
@@ -165,6 +173,46 @@ export default {
         .catch(() => {
           console.log('写入 pin 失败！')
         })
+    },
+    async getBaseData (owner, repo) {
+      try {
+        this.setAppLoading(true)
+        const [res1, res2] = await Promise.all([
+          getOwnerRepo({ owner, repo }), // 当前仓库的基本信息(默认分支)
+          getRepoBranches({ owner, repo }) // 当前仓库的所有分支
+        ])
+
+        const defaultBranch = res1.default_branch
+        const branches = res2 || []
+
+        if (!defaultBranch) return
+
+        // 获取当前 url 的 pathname(某些情况下, 当 branch 中含有 / 时可能会被编码)
+        const decodedPathname = window.decodeURIComponent(window.location.pathname)
+        // 当前激活的分支默认使用默认分支
+        let activeBranch = defaultBranch
+        let branch
+        for (let i = branches.length - 1; i >= 0; i--) {
+          branch = branches[i]
+          if (decodedPathname.indexOf(branch.name) !== -1) {
+            // 如果当前分支名在 pathname 中, 则这个分支(可能)为活动分支
+            activeBranch = branch.name
+            break
+          }
+        }
+
+        this.setRepoData({
+          owner,
+          repo,
+          defaultBranch,
+          activeBranch,
+          branches
+        })
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.setAppLoading(false)
+      }
     }
   }
 }

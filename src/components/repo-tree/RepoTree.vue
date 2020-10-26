@@ -50,7 +50,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['ownerAndRepo'])
+    ...mapState(['repoData'])
   },
   mounted () {
     if (process.env.NODE_ENV === 'development') {
@@ -87,8 +87,7 @@ export default {
 
       console.log(actives)
       console.log(this.treeData)
-      const [owner, repo] = this.ownerAndRepo
-      const branch = 'master'
+      const { owner, repo, activeBranch: branch } = this.repoData
       const { treePath } = actives[0]
 
       this.setAppLoading(true)
@@ -135,14 +134,14 @@ export default {
 
       return this.getRepoTree(item.sha, item)
     },
-    async getRepoTree (sha = 'master', item) {
-      const [owner, repo] = this.ownerAndRepo
+    async getRepoTree (sha, item) {
+      const { owner, repo, activeBranch } = this.repoData
 
       this.setAppLoading(true)
       const res = await getRepoTree({
         owner,
         repo,
-        sha
+        sha: sha || activeBranch
       })
       this.setAppLoading(false)
 
