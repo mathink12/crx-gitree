@@ -191,12 +191,16 @@ export default {
         const decodedPathname = window.decodeURIComponent(window.location.pathname)
         // 当前激活的分支默认使用默认分支
         let activeBranch = defaultBranch
-        let branch
+        let branchName
         for (let i = branches.length - 1; i >= 0; i--) {
-          branch = branches[i]
-          if (decodedPathname.indexOf(branch.name) !== -1) {
+          branchName = branches[i].name
+          // branchName: feat/1.0.0
+          // branchName: docs/i18n
+          // branchName: fix/aa-bb
+          if (decodedPathname.indexOf(`/${branchName}/`) !== -1 ||
+              decodedPathname.endsWith(branchName)) {
             // 如果当前分支名在 pathname 中, 则这个分支(可能)为活动分支
-            activeBranch = branch.name
+            activeBranch = branchName
             break
           }
         }

@@ -13,8 +13,8 @@ export default new Vuex.Store({
     repoData: {
       owner: '', // 当前仓库的所有者
       repo: '', // 当前仓库名
-      defaultBranch: '', // 当前仓库的默认分支
-      activeBranch: '', // 当前仓库的活动分支
+      defaultBranch: '', // 当前仓库的默认分支 name
+      activeBranch: '', // 当前仓库的活动分支 name
       branches: [] // 当前仓库的所有分支
     }
   },
