@@ -20,7 +20,7 @@
 
     <v-navigation-drawer v-model="drawer" fixed stateless
       @mouseleave.native="onMouseLeaveDrawer"
-      style="z-index: 2002;">
+      :style="{ zIndex }">
       <template #prepend>
         <v-list-item class="drawer-header">
           <!-- <v-list-item-avatar>
@@ -74,10 +74,6 @@
         <v-btn block @click.stop="drawer = false">Collapse</v-btn>
       </template>
 
-      <v-overlay :value="appLoading" class="gitree-loading">
-        <v-progress-circular indeterminate size="50" />
-      </v-overlay>
-
       <v-snackbar v-model="appSnackbar.show" timeout="3000">
         {{ appSnackbar.text }}
 
@@ -88,7 +84,15 @@
           </v-btn>
         </template>
       </v-snackbar>
+
+      <v-overlay :value="drawerLoading">
+        <v-progress-circular indeterminate size="50" />
+      </v-overlay>
     </v-navigation-drawer>
+
+    <v-overlay :value="fullscreenLoading" :z-index="zIndex + 1">
+      <v-progress-circular indeterminate size="50" />
+    </v-overlay>
   </div>
 </template>
 
@@ -106,13 +110,14 @@ export default {
   data () {
     return {
       drawer: false,
+      zIndex: 2020,
       pin: false, // 是否固定显示侧边栏
       pinKey: 'gitree_pin',
       giteeOrange: '#fe7300'
     }
   },
   computed: {
-    ...mapState(['appLoading', 'appSnackbar', 'repoData'])
+    ...mapState(['drawerLoading', 'fullscreenLoading', 'appSnackbar', 'repoData'])
   },
   watch: {
     pin: {
@@ -160,7 +165,11 @@ export default {
     this.getBaseData(owner, repo)
   },
   methods: {
-    ...mapMutations(['setAppLoading', 'hideAppSnackbar', 'setRepoData']),
+    ...mapMutations([
+      'setDrawerLoading',
+      'hideAppSnackbar',
+      'setRepoData'
+    ]),
     onMouseLeaveDrawer () {
       if (this.pin) return
       this.drawer = false
@@ -176,7 +185,7 @@ export default {
     },
     async getBaseData (owner, repo) {
       try {
-        this.setAppLoading(true)
+        this.setDrawerLoading(true)
         const [res1, res2] = await Promise.all([
           getOwnerRepo({ owner, repo }), // 当前仓库的基本信息(默认分支)
           getRepoBranches({ owner, repo }) // 当前仓库的所有分支
@@ -215,7 +224,7 @@ export default {
       } catch (e) {
         console.log(e)
       } finally {
-        this.setAppLoading(false)
+        this.setDrawerLoading(false)
       }
     }
   }

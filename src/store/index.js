@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    appLoading: false, // loading 加载
+    drawerLoading: false, // loading 加载(仅覆盖抽屉层)
+    fullscreenLoading: false, // 全屏 loading
     appSnackbar: {
       show: false,
       text: '提示'
@@ -19,8 +20,11 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setAppLoading (state, val) {
-      state.appLoading = val === true
+    setDrawerLoading (state, val) {
+      state.drawerLoading = val === true
+    },
+    setFullscreenLoading (state, val) {
+      state.fullscreenLoading = val === true
     },
     showAppSnackbar (state, text) {
       state.appSnackbar = {

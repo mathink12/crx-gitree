@@ -54,9 +54,9 @@ export default {
   },
   mounted () {
     if (process.env.NODE_ENV === 'development') {
-      this.setAppLoading(true)
+      this.setDrawerLoading(true)
       setTimeout(() => {
-        this.setAppLoading(false)
+        this.setDrawerLoading(false)
         this.showAppSnackbar('加载成功')
       }, 3 * 1000)
       let trees = []
@@ -78,7 +78,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setAppLoading', 'showAppSnackbar']),
+    ...mapMutations([
+      'setDrawerLoading',
+      'setFullscreenLoading',
+      'showAppSnackbar'
+    ]),
     onActive (actives) {
       const className = 'gitree-async-script'
       document.querySelectorAll(`.${className}`).forEach(v => {
@@ -90,7 +94,7 @@ export default {
       const { owner, repo, activeBranch: branch } = this.repoData
       const { treePath } = actives[0]
 
-      this.setAppLoading(true)
+      this.setFullscreenLoading(true)
       getDomRender({ owner, repo, branch, treePath }).then(res => {
         console.log(res)
         if (res.__gitreeFailed) return
@@ -109,7 +113,7 @@ export default {
       }).catch(e => {
 
       }).finally(() => {
-        this.setAppLoading(false)
+        this.setFullscreenLoading(false)
       })
     },
     async loadTree (item) {
@@ -137,13 +141,13 @@ export default {
     async getRepoTree (sha, item) {
       const { owner, repo, activeBranch } = this.repoData
 
-      this.setAppLoading(true)
+      this.setDrawerLoading(true)
       const res = await getRepoTree({
         owner,
         repo,
         sha: sha || activeBranch
       })
-      this.setAppLoading(false)
+      this.setDrawerLoading(false)
 
       console.log('=========================================================')
       console.log(res)
