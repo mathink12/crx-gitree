@@ -58,13 +58,13 @@ export default {
       if (['gulpfile.js'].includes(filename)) return 'gitree-gulp'
 
       // prettier
-      if (['prettier.config.js'].includes(filename)) return 'gitree-prettier'
+      if (['prettier.config.js', '.prettierrc.js', '.prettierrc.json'].includes(filename)) return 'gitree-prettier'
 
       // travis
-      if (['.travis.yml'].includes(filename)) return 'gitree-travis'
+      if (['.travis.yml'].includes(filename)) return 'gitree-travis-plain'
 
       // yarn
-      if (['yarn.lock', '.yarnrc'].includes(filename)) return 'gitree-yarn'
+      if (['yarn.lock', '.yarnrc', 'yarnrc.yml'].includes(filename)) return 'gitree-yarn'
 
       // browserslist
       if (['.browserslistrc'].includes(filename)) return 'gitree-browserslist'
@@ -78,8 +78,35 @@ export default {
       // bower
       if (['bower.json'].includes(filename)) return 'gitree-bower'
 
+      // apache
+      if (['httpd.conf'].includes(filename)) return 'gitree-apache'
+
+      // netlify
+      if (['netlify.toml'].includes(filename)) return 'gitree-netlify'
+
+      // ruby
+      if (['Gemfile'].includes(filename)) return 'gitree-ruby'
+
+      // jquery
+      if (/\bjquery\b.{0,}\.(js|ts)$/.test(filename)) return 'gitree-jQuery'
+
+      // jquery-ui
+      if (/\bjquery(-|.)ui\b.{0,}\.(js|ts)$/.test(filename)) return 'gitree-jquery-ui'
+
       // karma
-      if (/\bkarma\b.{0,}\.(js|ts)$/.test(filename)) return 'gitree-karma'
+      if (/\bkarma\b.{0,}\.(js|ts|yml|yaml)$/.test(filename)) return 'gitree-karma'
+
+      // mocha
+      if (/\bmocha\b.{0,}\.(js|ts|yml|yaml)$/.test(filename)) return 'gitree-mocha'
+
+      // codecov: codecov.yml
+      if (/\bcodecov\b.{0,}\.(js|ts|yml|yaml)$/.test(filename)) return 'gitree-codecov'
+
+      // protractor
+      if (/\bprotractor\b.{0,}\.(js|ts|yml|yaml)$/.test(filename)) return 'gitree-protractor'
+
+      // docker: Dockerfile, docker-compose.yaml
+      if (/\bdocker\b.{0,}(\.(yml|yaml))?$/.test(filename)) return 'gitree-mocha'
 
       // makefile
       if (['makefile'].includes(filename)) return 'gitree-makefile'
@@ -91,6 +118,19 @@ export default {
       if (/^\.env\.*/.test(filename)) return 'gitree-env'
 
       return gitreeIcons[this.fileType] || 'gitree-file'
+      // .csproj, .csproj.user
+      // .dll,
+      // font, svg 调小(.otf 字体文件)
+      // .travis.yaml
+      // tsconfig.dev.json, tsconfig.*.json
+      // _gitignore, _eslintrc
+      // .toml
+      // bootstrap.js, react, angular
+      // rollup, vite
+      // .sketch,
+      // image 区分颜色, font 区分颜色
+      // .project
+      // .liquid,
     }
   }
 }

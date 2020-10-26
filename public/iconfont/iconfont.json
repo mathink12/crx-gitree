@@ -6,6 +6,349 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7894865",
+      "name": "R语言",
+      "font_class": "r",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "13303478",
+      "name": "haskell",
+      "font_class": "haskell",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "13304033",
+      "name": "python",
+      "font_class": "python",
+      "unicode": "e690",
+      "unicode_decimal": 59024
+    },
+    {
+      "icon_id": "13304135",
+      "name": "xaml",
+      "font_class": "xaml",
+      "unicode": "e6b1",
+      "unicode_decimal": 59057
+    },
+    {
+      "icon_id": "13339813",
+      "name": "fortran",
+      "font_class": "fortran",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "13469687",
+      "name": "kotlin",
+      "font_class": "kotlin",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "13469732",
+      "name": "lua",
+      "font_class": "lua",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "8864711",
+      "name": "golang",
+      "font_class": "golang-colored",
+      "unicode": "e6ed",
+      "unicode_decimal": 59117
+    },
+    {
+      "icon_id": "3876125",
+      "name": "jekyll",
+      "font_class": "jekyll",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "7617119",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "13743932",
+      "name": "gitee-fill-round",
+      "font_class": "gitee-fill-round",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "1898515",
+      "name": "apple",
+      "font_class": "apple",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "4318818",
+      "name": "Ai",
+      "font_class": "Ai",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "8894536",
+      "name": "applescript",
+      "font_class": "applescript",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "14621793",
+      "name": "travis-plain",
+      "font_class": "travis-plain",
+      "unicode": "ebcb",
+      "unicode_decimal": 60363
+    },
+    {
+      "icon_id": "5321636",
+      "name": "zip",
+      "font_class": "zip",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "7731528",
+      "name": "file_type_protractor",
+      "font_class": "protractor",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "13304052",
+      "name": "svelte",
+      "font_class": "svelte",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    },
+    {
+      "icon_id": "14465215",
+      "name": "settings",
+      "font_class": "settings",
+      "unicode": "e6aa",
+      "unicode_decimal": 59050
+    },
+    {
+      "icon_id": "16388843",
+      "name": "rar",
+      "font_class": "rar",
+      "unicode": "e67f",
+      "unicode_decimal": 59007
+    },
+    {
+      "icon_id": "10917179",
+      "name": "book-read-line",
+      "font_class": "book",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "11636057",
+      "name": "book-read-fill",
+      "font_class": "book-fill",
+      "unicode": "e7a8",
+      "unicode_decimal": 59304
+    },
+    {
+      "icon_id": "3876399",
+      "name": "netlify",
+      "font_class": "netlify",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "13302955",
+      "name": "codecov",
+      "font_class": "codecov",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "13303910",
+      "name": "mocha",
+      "font_class": "mocha",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "11227407",
+      "name": "golang",
+      "font_class": "golang",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "3846904",
+      "name": "Windows",
+      "font_class": "windows",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    },
+    {
+      "icon_id": "11144359",
+      "name": "jquery_ui_logo",
+      "font_class": "jquery-ui",
+      "unicode": "eb6b",
+      "unicode_decimal": 60267
+    },
+    {
+      "icon_id": "11992975",
+      "name": "less",
+      "font_class": "less",
+      "unicode": "e6ee",
+      "unicode_decimal": 59118
+    },
+    {
+      "icon_id": "12600909",
+      "name": "sqlite",
+      "font_class": "sqlite",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "13303942",
+      "name": "nodejs",
+      "font_class": "nodejs",
+      "unicode": "e683",
+      "unicode_decimal": 59011
+    },
+    {
+      "icon_id": "13304047",
+      "name": "stylus",
+      "font_class": "stylus",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "13304050",
+      "name": "stylelint",
+      "font_class": "stylelint",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "13894248",
+      "name": "docker",
+      "font_class": "docker",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "17849770",
+      "name": "pug",
+      "font_class": "pug",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "6496028",
+      "name": "jQuery",
+      "font_class": "jQuery",
+      "unicode": "e79a",
+      "unicode_decimal": 59290
+    },
+    {
+      "icon_id": "13304019",
+      "name": "react",
+      "font_class": "react",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    },
+    {
+      "icon_id": "15378134",
+      "name": "apache",
+      "font_class": "apache",
+      "unicode": "eb3d",
+      "unicode_decimal": 60221
+    },
+    {
+      "icon_id": "15378753",
+      "name": "rollup-dot-js",
+      "font_class": "rollup",
+      "unicode": "ec81",
+      "unicode_decimal": 60545
+    },
+    {
+      "icon_id": "1445642",
+      "name": "xml",
+      "font_class": "xml",
+      "unicode": "e945",
+      "unicode_decimal": 59717
+    },
+    {
+      "icon_id": "2507228",
+      "name": "swift",
+      "font_class": "swift",
+      "unicode": "e72e",
+      "unicode_decimal": 59182
+    },
+    {
+      "icon_id": "2507289",
+      "name": "dart",
+      "font_class": "dart",
+      "unicode": "e751",
+      "unicode_decimal": 59217
+    },
+    {
+      "icon_id": "5824602",
+      "name": "jsp",
+      "font_class": "jsp",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "8105627",
+      "name": "perl",
+      "font_class": "perl",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "12600749",
+      "name": "java",
+      "font_class": "java",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "12601015",
+      "name": "apk",
+      "font_class": "apk",
+      "unicode": "e68b",
+      "unicode_decimal": 59019
+    },
+    {
+      "icon_id": "13303933",
+      "name": "php",
+      "font_class": "php",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
+      "icon_id": "13469425",
+      "name": "coffeescript",
+      "font_class": "coffeescript",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "15378759",
+      "name": "ruby",
+      "font_class": "ruby",
+      "unicode": "ec86",
+      "unicode_decimal": 60550
+    },
+    {
       "icon_id": "7730017",
       "name": "file_type_wxml",
       "font_class": "wxml",
@@ -18,13 +361,6 @@
       "font_class": "wxss",
       "unicode": "e726",
       "unicode_decimal": 59174
-    },
-    {
-      "icon_id": "736580",
-      "name": "book",
-      "font_class": "book",
-      "unicode": "e623",
-      "unicode_decimal": 58915
     },
     {
       "icon_id": "6496025",
