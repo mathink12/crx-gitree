@@ -21,9 +21,9 @@
     </template>
   </v-treeview>
   <p v-else class="py-10 text-center">
-    暂无内容，点击
-    <v-btn class="ml-2" color="primary" small @click="getRepoTree">
-      加载
+    可能 Token 无效，
+    <v-btn class="ml-2" color="primary" small @click="onSetToken">
+      点击设置
     </v-btn>
   </p>
 </template>
@@ -52,6 +52,11 @@ export default {
   computed: {
     ...mapState(['repoData'])
   },
+  watch: {
+    repoData () {
+      this.getRepoTree()
+    }
+  },
   mounted () {
     if (process.env.NODE_ENV === 'development') {
       this.setDrawerLoading(true)
@@ -79,10 +84,14 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'setActivePane',
       'setDrawerLoading',
       'setFullscreenLoading',
       'showAppSnackbar'
     ]),
+    onSetToken () {
+      this.setActivePane('settings')
+    },
     onActive (actives) {
       const className = 'gitree-async-script'
       document.querySelectorAll(`.${className}`).forEach(v => {
@@ -140,6 +149,7 @@ export default {
     },
     async getRepoTree (sha, item) {
       const { owner, repo, activeBranch } = this.repoData
+      if (!owner || !repo) return
 
       this.setDrawerLoading(true)
       const res = await getRepoTree({

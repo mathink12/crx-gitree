@@ -58,7 +58,22 @@ const getCache = (key) => {
   })
 }
 
+/**
+ * 缓存 token
+ * @param  {[type]} token [description]
+ * @return {[type]}       [description]
+ */
+const cacheToken = (token) => setCache('gitree_access_token', token)
+
+/**
+ * 从缓存中读取 token
+ * @return {[type]} [description]
+ */
+const getCachedToken = () => getCache('gitree_access_token')
+
 export {
   setCache,
-  getCache
+  getCache,
+  cacheToken,
+  getCachedToken
 }

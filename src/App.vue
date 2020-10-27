@@ -1,8 +1,5 @@
 <template>
   <div id="gitree_container" class="v-application">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <!-- <button>Toggle</button> -->
     <v-btn
       :class="{
         'gitree-toggle': true,
@@ -12,34 +9,37 @@
       Gitree
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
-    <!-- <div style="width: 960px;height: 2000px;background-color: #ddd;margin: 0 auto;">
-      <p v-for="i in 200" :key="i" style="text-align: center;">
-        {{ i }}
-      </p>
-    </div> -->
 
     <v-navigation-drawer v-model="drawer" fixed stateless
       @mouseleave.native="onMouseLeaveDrawer"
       :style="{ zIndex }">
       <template #prepend>
         <v-list-item class="drawer-header">
-          <!-- <v-list-item-avatar>
-            <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-          </v-list-item-avatar> -->
-
           <v-list-item-content>
-            <v-list-item-title>
-              <v-icon class="mr-1">mdi-book</v-icon>
-              {{ repoData.owner }} / {{ repoData.repo }}
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              <v-icon class="mr-1">mdi-source-branch</v-icon>
-              {{ repoData.activeBranch }}
-            </v-list-item-subtitle>
+            <template v-if="activePane === 'settings'">
+              <v-list-item-title>设 置</v-list-item-title>
+            </template>
+            <template v-else>
+              <v-list-item-title>
+                <v-icon class="mr-1">mdi-book</v-icon>
+                {{ repoData.owner }} / {{ repoData.repo }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                <v-icon class="mr-1">mdi-source-branch</v-icon>
+                {{ repoData.activeBranch }}
+              </v-list-item-subtitle>
+            </template>
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-btn icon
+            <v-btn icon small
+              :color="activePane === 'settings' ? giteeOrange : '#935323'"
+              @click="onSettingsBtnClick">
+              <v-icon>mdi-cogs</v-icon>
+            </v-btn>
+          </v-list-item-action>
+          <v-list-item-action>
+            <v-btn icon small
               :color="giteeOrange"
               :class="{
                 'tree-pin-icon': true,
@@ -51,24 +51,11 @@
             </v-btn>
           </v-list-item-action>
         </v-list-item>
-        <!-- <v-divider /> -->
       </template>
-      <!-- <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link>
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list> -->
+      <Settings v-show="activePane === 'settings'" />
+      <RepoTree v-show="activePane === 'tree'" />
 
-      <RepoTree v-if="repoData.owner && repoData.repo" />
       <template #append>
         <v-divider />
         <v-btn block @click.stop="drawer = false">Collapse</v-btn>
@@ -79,7 +66,6 @@
 
         <template #action="{ attrs }">
           <v-btn color="pink" icon v-bind="attrs" @click="hideAppSnackbar">
-            <!-- Close -->
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
@@ -98,14 +84,16 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { setCache, getCache } from '@/utils/cache'
+import { setCache, getCache, getCachedToken } from '@/utils/cache'
 import { getOwnerRepo, getRepoBranches } from '@/api/gitee'
 import RepoTree from '@/components/repo-tree/RepoTree'
+import Settings from '@/components/Settings'
 
 export default {
   name: 'App',
   components: {
-    RepoTree
+    RepoTree,
+    Settings
   },
   data () {
     return {
@@ -117,7 +105,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(['drawerLoading', 'fullscreenLoading', 'appSnackbar', 'repoData'])
+    ...mapState([
+      'activePane',
+      'drawerLoading',
+      'fullscreenLoading',
+      'appSnackbar',
+      'repoData'
+    ])
   },
   watch: {
     pin: {
@@ -152,29 +146,39 @@ export default {
     }
   },
   mounted () {
-    let owner = ''
-    let repo = ''
+    getCachedToken().then(res => {
+      console.log(res)
+      this.setToken(res)
+      console.log('从缓存中获取 Token 成功')
 
-    // pathname: /owner/repo[/branch]
-    const pathnames = window.location.pathname.split('/')
-    // branch 中可能含有 '/', 这里只取前两层
-    owner = pathnames[1]
-    repo = pathnames[2]
+      let owner = ''
+      let repo = ''
 
-    if (process.env.NODE_ENV === 'development') {
-      // 开发环境使用测试数据
-      owner = 'mirrors'
-      repo = 'axios'
-    }
+      // pathname: /owner/repo[/branch]
+      const pathnames = window.location.pathname.split('/')
+      // branch 中可能含有 '/', 这里只取前两层
+      owner = pathnames[1]
+      repo = pathnames[2]
 
-    // 此时的页面应该不是仓库页面
-    if (!repo) return
+      if (process.env.NODE_ENV === 'development') {
+        // 开发环境使用测试数据
+        owner = 'mirrors'
+        repo = 'axios'
+      }
 
-    // 可能是仓库页面, 则查询仓库相关信息
-    this.getBaseData(owner, repo)
+      // 此时的页面应该不是仓库页面
+      if (!repo) return
+
+      // 可能是仓库页面, 则查询仓库相关信息
+      this.getBaseData(owner, repo)
+    }).catch(e => {
+      console.log('从缓存中获取 Token 失败')
+    })
   },
   methods: {
     ...mapMutations([
+      'setActivePane',
+      'setToken',
       'setDrawerLoading',
       'hideAppSnackbar',
       'setRepoData'
@@ -182,6 +186,13 @@ export default {
     onMouseLeaveDrawer () {
       if (this.pin) return
       this.drawer = false
+    },
+    onSettingsBtnClick () {
+      if (this.activePane === 'settings') {
+        this.setActivePane('tree')
+      } else {
+        this.setActivePane('settings')
+      }
     },
     togglePin () {
       this.pin = !this.pin

@@ -5,6 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // 当前激活的面板: tree(目录树), settings(设置页面)
+    activePane: 'tree',
+    token: '',
     drawerLoading: false, // loading 加载(仅覆盖抽屉层)
     fullscreenLoading: false, // 全屏 loading
     appSnackbar: {
@@ -20,6 +23,18 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setActivePane (state, val) {
+      const invalidVals = ['tree', 'settings']
+      if (!invalidVals.includes(val)) {
+        console.warn('非法值！只能是：' + invalidVals.join(', '))
+        return
+      }
+
+      state.activePane = val
+    },
+    setToken (state, val) {
+      state.token = val
+    },
     setDrawerLoading (state, val) {
       state.drawerLoading = val === true
     },
