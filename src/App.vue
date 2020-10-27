@@ -152,11 +152,20 @@ export default {
     }
   },
   mounted () {
+    let owner = ''
+    let repo = ''
+
     // pathname: /owner/repo[/branch]
     const pathnames = window.location.pathname.split('/')
     // branch 中可能含有 '/', 这里只取前两层
-    const owner = pathnames[1]
-    const repo = pathnames[2]
+    owner = pathnames[1]
+    repo = pathnames[2]
+
+    if (process.env.NODE_ENV === 'development') {
+      // 开发环境使用测试数据
+      owner = 'mirrors'
+      repo = 'axios'
+    }
 
     // 此时的页面应该不是仓库页面
     if (!repo) return

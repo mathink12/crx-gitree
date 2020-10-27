@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASE_URL } from './config.js'
+import { baseURL } from './config.js'
 import { addInterceptors } from './interceptors.js'
 
 /**
@@ -10,7 +10,7 @@ import { addInterceptors } from './interceptors.js'
 const initApi = () => {
   // 当前的请求队列
   axios.__requestQueue = new Map()
-  axios.defaults.baseURL = BASE_URL
+  axios.defaults.baseURL = baseURL
   addInterceptors()
 }
 
