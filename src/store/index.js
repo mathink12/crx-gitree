@@ -33,7 +33,7 @@ export default new Vuex.Store({
       state.activePane = val
     },
     setToken (state, val) {
-      state.token = val
+      state.token = val || ''
     },
     setDrawerLoading (state, val) {
       state.drawerLoading = val === true

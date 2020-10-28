@@ -1,7 +1,8 @@
 <template>
   <div class="gitree-settings px-4">
     <v-text-field v-model="accessToken"
-      label="Access Token"
+      type="password"
+      label="personal access token"
       dense solo hide-details
       class="mt-4"
     />
@@ -9,13 +10,17 @@
       <v-spacer />
       <v-btn text small color="primary"
         @click="onCreateToken">
-        没有 token？点击创建
+        点击创建（新开窗口图标）
+        <!-- <i></i> -->
       </v-btn>
     </div>
 
-    <v-btn color="success" block class="mt-10"
+    <v-btn block class="mt-10" @click="onRemoveToken">
+      清除缓存的私人令牌
+    </v-btn>
+    <v-btn color="success" block class="mt-4"
       @click="onSubmit">
-      保存（在浏览器中）
+      保存设置
     </v-btn>
     <!-- <p class="text-body-2 text--secondary text-right">将会保存在浏览器中</p> -->
   </div>
@@ -23,7 +28,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { cacheToken } from '@/utils/cache'
+import { cacheToken, removeCachedToken } from '@/utils/cache'
 
 export default {
   name: 'Settings',
@@ -36,12 +41,17 @@ export default {
     ...mapState(['token'])
   },
   created () {
-    this.accessToken = this.token
+    // this.accessToken = this.token
   },
   methods: {
     ...mapMutations(['setActivePane', 'setToken']),
     onCreateToken () {
-      window.location = 'https://gitee.com/profile/personal_access_tokens/new'
+      const newTab = window.open()
+      newTab.opener = null
+      newTab.location = 'https://gitee.com/profile/personal_access_tokens/new'
+    },
+    onRemoveToken () {
+      removeCachedToken().then(() => {})
     },
     onSubmit () {
       console.log(this.accessToken)

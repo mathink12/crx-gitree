@@ -12,7 +12,7 @@ const setCache = (key, val) => {
           [key]: val
         }, (res) => {
           console.log(res)
-          resolve(res)
+          resolve()
         })
       } catch (e) {
         reject(e)
@@ -59,10 +59,39 @@ const getCache = (key) => {
 }
 
 /**
+ * 移除缓存
+ * @param  {[type]} key [description]
+ * @return {[type]}     [description]
+ */
+const removeCache = (key) => {
+  if (typeof chrome?.storage?.sync?.remove === 'function') {
+    return new Promise((resolve, reject) => {
+      try {
+        chrome.storage.sync.remove(key, res => {
+          resolve()
+        })
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
+  return new Promise((resolve, reject) => {
+    try {
+      window.localStorage.removeItem(key)
+      resolve()
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+/**
  * 缓存 token
  * @param  {[type]} token [description]
  * @return {[type]}       [description]
  */
+// TODO: 简单加密
 const cacheToken = (token) => setCache('gitree_access_token', token)
 
 /**
@@ -71,9 +100,17 @@ const cacheToken = (token) => setCache('gitree_access_token', token)
  */
 const getCachedToken = () => getCache('gitree_access_token')
 
+/**
+ * 从缓存中移除 token
+ * @return {[type]} [description]
+ */
+const removeCachedToken = () => removeCache('gitree_access_token')
+
 export {
   setCache,
   getCache,
+  removeCache,
   cacheToken,
-  getCachedToken
+  getCachedToken,
+  removeCachedToken
 }

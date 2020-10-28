@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from '@/store'
 
 /**
  * 获取用户的某个仓库(默认分支等信息)
@@ -9,9 +8,7 @@ import store from '@/store'
  */
 const getOwnerRepo = (params = {}) => {
   const { owner, repo } = params
-  const { token } = store.state
-  console.log('getOwnerRepo', token)
-  const url = `/repos/${owner}/${repo}?access_token=${token}`
+  const url = `/repos/${owner}/${repo}`
   return axios.get(url)
 }
 
@@ -23,9 +20,7 @@ const getOwnerRepo = (params = {}) => {
  */
 const getRepoBranches = (params = {}) => {
   const { owner, repo } = params
-  const { token } = store.state
-  console.log('getRepoBranches', token)
-  const url = `/repos/${owner}/${repo}/branches?access_token=${token}`
+  const url = `/repos/${owner}/${repo}/branches`
   return axios.get(url)
 }
 
@@ -38,9 +33,7 @@ const getRepoBranches = (params = {}) => {
  */
 const getRepoTree = (params = {}) => {
   const { owner, repo, sha } = params
-  const { token } = store.state
-  console.log('getRepoTree', token)
-  const url = `/repos/${owner}/${repo}/git/trees/${sha}?access_token=${token}`
+  const url = `/repos/${owner}/${repo}/git/trees/${sha}`
   return axios.get(url)
 }
 

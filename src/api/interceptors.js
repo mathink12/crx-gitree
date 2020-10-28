@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store'
 
 const CancelToken = axios.CancelToken
 
@@ -36,6 +37,17 @@ const _calcRequestFingerprint = config => {
  */
 const _addRequestInterceptors = () => {
   axios.interceptors.request.use(config => {
+    const { token } = store.state
+    if (token) {
+      let { url } = config
+      if (url.indexOf('?') === -1) {
+        url = `${url}?access_token=${token}`
+      } else {
+        url = `${url}&access_token=${token}`
+      }
+      config.url = url
+    }
+
     // request cancellation
     let cancel
     config.cancelToken = new CancelToken(c => {
