@@ -1,5 +1,8 @@
 <template>
-  <v-treeview v-if="Array.isArray(treeData) && treeData.length > 0"
+  <p v-if="!repoData.owner || !repoData.repo" class="py-10 text-center">
+    当前可能在非仓库页面
+  </p>
+  <v-treeview v-else-if="Array.isArray(treeData) && treeData.length > 0"
     class="repo-tree"
     activatable
     open-on-click
@@ -20,12 +23,14 @@
       <FileIcon v-else class="mr-1 colored" :filename="item.path" />
     </template>
   </v-treeview>
-  <p v-else class="py-10 text-center">
-    可能 Token 无效，
-    <v-btn class="ml-2" color="primary" small @click="onSetToken">
-      点击设置
+  <div v-else class="pa-2">
+    <p>
+      可能 Token 无效（非公开仓库需要添加 Token 才能加载）
+    </p>
+    <v-btn class="ml-2" color="primary" @click="onSetToken">
+      点击添加 Token
     </v-btn>
-  </p>
+  </div>
 </template>
 
 <script>
