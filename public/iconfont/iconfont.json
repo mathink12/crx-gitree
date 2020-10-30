@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "13303504",
+      "name": "gitlab",
+      "font_class": "gitlab",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "17952732",
+      "name": "ocaml",
+      "font_class": "ocaml-mli",
+      "unicode": "f292",
+      "unicode_decimal": 62098
+    },
+    {
+      "icon_id": "13303151",
+      "name": "flow",
+      "font_class": "flow",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "13470135",
+      "name": "ocaml",
+      "font_class": "ocaml",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "7894865",
       "name": "R语言",
       "font_class": "r",
@@ -417,6 +445,13 @@
       "font_class": "prettier",
       "unicode": "ec5f",
       "unicode_decimal": 60511
+    },
+    {
+      "icon_id": "17952960",
+      "name": "c",
+      "font_class": "c-h",
+      "unicode": "f293",
+      "unicode_decimal": 62099
     },
     {
       "icon_id": "128887",

@@ -22,3 +22,9 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### 暂未支持的图标
+
+// .DS_Store, .jsx, .ejs
+// .*(config file)

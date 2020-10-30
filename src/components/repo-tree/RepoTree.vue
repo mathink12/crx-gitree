@@ -1,5 +1,6 @@
 <template>
-  <p v-if="!repoData.owner || !repoData.repo" class="py-10 text-center">
+  <p v-if="!repoData.owner || !repoData.repo"
+    class="py-10 text-center repo-tree-no-data">
     当前可能在非仓库页面
   </p>
   <v-treeview v-else-if="Array.isArray(treeData) && treeData.length > 0"
@@ -23,7 +24,7 @@
       <FileIcon v-else class="mr-1 colored" :filename="item.path" />
     </template>
   </v-treeview>
-  <div v-else class="pa-3">
+  <div v-else class="pa-3 repo-tree-no-data">
     <p>
       <span v-if="token">当前用户授权码已过期，</span>
       Gitree 暂未能获取数据，您可以按以下方法重试：
@@ -99,9 +100,9 @@ export default {
       })
 
       console.log(actives)
-      console.log(this.treeData)
       const { owner, repo, activeBranch: branch } = this.repoData
-      const { treePath } = actives[0]
+      const { path: treePath } = actives[0]
+      console.log(treePath)
 
       this.setFullscreenLoading(true)
       getDomRender({ owner, repo, branch, treePath }).then(res => {
@@ -256,6 +257,10 @@ export default {
     font-size: 20px;
     color: rgba(0, 0, 0, 0.54);
   }
+}
+
+.repo-tree-no-data {
+  font-size: 16px;
 }
 
 .gitree-error-suggestion {

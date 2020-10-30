@@ -85,7 +85,7 @@ export default {
       if (['netlify.toml'].includes(filename)) return 'gitree-netlify'
 
       // ruby
-      if (['Gemfile'].includes(filename)) return 'gitree-ruby'
+      if (['gemfile', 'gemfile.lock'].includes(filename)) return 'gitree-ruby'
 
       // jquery
       if (/\bjquery\b.{0,}\.(js|ts)$/.test(filename)) return 'gitree-jQuery'
@@ -106,7 +106,7 @@ export default {
       if (/\bprotractor\b.{0,}\.(js|ts|yml|yaml)$/.test(filename)) return 'gitree-protractor'
 
       // docker: Dockerfile, docker-compose.yaml
-      if (/\bdocker\b.{0,}(\.(yml|yaml))?$/.test(filename)) return 'gitree-mocha'
+      if (/\bdocker(file)?\b.{0,}(\.(yml|yaml))?$/.test(filename)) return 'gitree-docker'
 
       // makefile
       if (['makefile'].includes(filename)) return 'gitree-makefile'
