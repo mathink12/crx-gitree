@@ -8,7 +8,7 @@
     open-on-click
     dense hoverable
     item-key="sha"
-    item-text="path"
+    item-text="deepestPath"
     transition
     return-object
     :active.sync="active"
@@ -31,11 +31,15 @@
     <ul class="gitree-error-suggestion">
       <li>
         <v-btn color="primary" small @click="onSetToken">添加授权码</v-btn>
-        <span class="gitree-tip--secondary">，添加有效的授权码后，Gitree 可以获取公开仓库和私有仓库数据</span>
+        <span class="gitree-tip--secondary">
+          ，添加有效的授权码后，Gitree 可以获取公开仓库和私有仓库数据
+        </span>
       </li>
       <li v-if="token" class="mt-2">
         <v-btn small @click="onRemoveToken">删除授权码</v-btn>
-        <span class="gitree-tip--secondary">，删除后 Gitree 只能获取公开仓库数据</span>
+        <span class="gitree-tip--secondary">
+          ，删除后 Gitree 只能获取公开仓库数据
+        </span>
       </li>
     </ul>
   </div>
@@ -44,11 +48,9 @@
 <script>
 import { concat, sortBy } from 'lodash'
 import { mapState, mapMutations } from 'vuex'
-import { treeData } from '@/mock'
 import { removeCachedToken } from '@/utils/cache'
 import { getRepoTree, getDomRender } from '@/api/gitee'
 import FileIcon from '@/components/file-icon/FileIcon'
-console.log(treeData)
 
 export default {
   name: 'RepoTree',
@@ -60,7 +62,8 @@ export default {
       loading: false,
       active: [],
       open: [],
-      treeData: []
+      treeData: [],
+      lv2Ups: []
     }
   },
   computed: {
@@ -68,34 +71,11 @@ export default {
   },
   watch: {
     repoData () {
-      // this.getRepoTree()
+      this.getRepoTree()
     }
   },
   mounted () {
-    if (process.env.NODE_ENV === 'development') {
-      this.setDrawerLoading(true)
-      setTimeout(() => {
-        this.setDrawerLoading(false)
-        this.showAppSnackbar('加载成功')
-      }, 3 * 1000)
-      let trees = []
-      let blobs = []
-      treeData.forEach(v => {
-        v.treePath = v.path
-        if (v.type === 'tree') {
-          v.children = []
-          trees.push(v)
-        } else {
-          blobs.push(v)
-        }
-      })
-      trees = sortBy(trees, 'path')
-      blobs = sortBy(blobs, 'path')
-      this.treeData = concat(trees, blobs)
-      this.treeData = []
-    } else {
-      this.getRepoTree()
-    }
+    this.getRepoTree()
   },
   methods: {
     ...mapMutations([
@@ -145,29 +125,23 @@ export default {
         this.setFullscreenLoading(false)
       })
     },
-    async loadTree (item) {
-      if (process.env.NODE_ENV === 'development') {
-        const json = [{
-          // v.treePath = treePath ? `${treePath}/${v.path}` : `/${v.path}`
-          treePath: item.treePath ? `${item.treePath}/package.json` : 'package.json',
-          path: 'package.json',
-          mode: '1006a44',
-          type: 'blob',
-          sha: Math.random().toString(),
-          size: 1631
-        }]
+    loadTree (item) {
+      console.log('loadTree')
+      console.log(item)
+      const { path, deep } = item
+      const childrenDeep = deep + 1
+      const children = this.lv2Ups.filter(v => {
+        return v.path.startsWith(path + '/') && v.deep === childrenDeep
+      })
+      console.log(children)
 
-        if (Array.isArray(item.children)) {
-          item.children.push(...json)
-        } else {
-          item.children = json
-        }
-        return
+      if (Array.isArray(item.children)) {
+        item.children.push(...this.sortChildren(children))
+      } else {
+        item.children = this.sortChildren(children)
       }
-
-      return this.getRepoTree(item.sha, item)
     },
-    async getRepoTree (sha, item) {
+    async getRepoTree () { // 只查一次
       const { owner, repo, activeBranch } = this.repoData
       if (!owner || !repo) return
 
@@ -175,41 +149,68 @@ export default {
       const res = await getRepoTree({
         owner,
         repo,
-        sha: sha || activeBranch
+        sha: activeBranch,
+        recursive: 1 // 递归获取目录
       })
       this.setDrawerLoading(false)
 
       console.log('=========================================================')
       console.log(res)
-      const tree = this.combTree(res.tree, item?.treePath)
-      if (item) {
-        if (Array.isArray(item.children)) {
-          item.children.push(...tree)
-        } else {
-          item.children = tree
-        }
-      } else {
-        this.treeData = tree
-      }
-      console.log(this.treeData)
+      const { treeData, lv2Ups } = this.combTree(res.tree)
+      this.treeData = treeData
+      this.lv2Ups = lv2Ups
     },
-    // treePath: 'src/main.js'
-    combTree (tree, treePath) {
+    combTree (tree) { // 只调一次
       if (!Array.isArray(tree)) return []
 
-      let trees = []
-      let blobs = []
+      const lv2Ups = [] // 2 级(含)以上的目录或文件
+      let trees = [] // 1 级目录
+      let blobs = [] // 1 级文件
+      let paths
+      let deep
       tree.forEach(v => {
-        v.treePath = treePath ? `${treePath}/${v.path}` : `${v.path}`
+        paths = v.path.split('/')
+        deep = paths.length
+        v.deepestPath = paths[deep - 1]
+        v.deep = deep
+
         if (v.type === 'tree') {
           v.children = []
+          // 是目录, 'src', 'src/utils'
+          if (v.path.includes('/')) { // 非一级目录
+            lv2Ups.push(v)
+          } else { // 一级目录
+            trees.push(v)
+          }
+        } else { // 是文件
+          if (v.path.includes('/')) { // 非一级文件
+            lv2Ups.push(v)
+          } else { // 一级文件
+            blobs.push(v)
+          }
+        }
+      })
+      trees = sortBy(trees, 'deepestPath')
+      blobs = sortBy(blobs, 'deepestPath')
+
+      return {
+        treeData: concat(trees, blobs),
+        lv2Ups
+      }
+    },
+    // 对目录结构进行排序: 目录在前, 文件在后
+    sortChildren (data) {
+      let trees = []
+      let blobs = []
+      data.forEach(v => {
+        if (v.type === 'tree') {
           trees.push(v)
         } else {
           blobs.push(v)
         }
       })
-      trees = sortBy(trees, 'path')
-      blobs = sortBy(blobs, 'path')
+      trees = sortBy(trees, 'deepestPath')
+      blobs = sortBy(blobs, 'deepestPath')
 
       return concat(trees, blobs)
     }

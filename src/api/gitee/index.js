@@ -32,8 +32,8 @@ const getRepoBranches = (params = {}) => {
  * @return {[type]}
  */
 const getRepoTree = (params = {}) => {
-  const { owner, repo, sha } = params
-  const url = `/repos/${owner}/${repo}/git/trees/${sha}`
+  const { owner, repo, sha, recursive } = params
+  const url = `/repos/${owner}/${repo}/git/trees/${sha}?recursive=${recursive || ''}`
   return axios.get(url)
 }
 
