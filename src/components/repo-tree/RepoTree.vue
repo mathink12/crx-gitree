@@ -3,6 +3,14 @@
     class="py-10 text-center repo-tree-no-data">
     当前可能在非仓库页面
   </p>
+  <div v-else-if="!repoData.activeBranch"
+    class="py-10 text-center repo-tree-no-data">
+    <p>Gitree 获取数据失败</p>
+    <v-btn class="mt-5"
+      @click="$bus.$emit('branch:refresh', repoData.owner, repoData.repo)">
+      点击重试
+    </v-btn>
+  </div>
   <v-treeview v-else-if="Array.isArray(treeData) && treeData.length > 0"
     class="repo-tree"
     activatable
@@ -75,6 +83,12 @@ export default {
       this.getRepoTree()
     }
   },
+  created () {
+    this.$bus.$on('repo-tree:refresh', this.getRepoTree)
+    this.$on('hook:beforeDestroy', () => {
+      this.$bus.$off('repo-tree:refresh', this.getRepoTree)
+    })
+  },
   mounted () {
     this.getRepoTree()
   },
@@ -83,17 +97,22 @@ export default {
       'setActivePane',
       'setDrawerLoading',
       'setFullscreenLoading',
-      'showAppSnackbar'
+      'showAppSnackbar',
+      'setToken'
     ]),
     onSetToken () {
       this.setActivePane('settings')
     },
     onRemoveToken () {
       removeCachedToken().then(() => {
+        this.setToken()
         this.getRepoTree()
       })
     },
     onActive (actives) {
+      const active = actives[0]
+      if (!active) return
+
       const className = 'gitree-async-script'
       document.querySelectorAll(`.${className}`).forEach(v => {
         v.parentNode.removeChild(v)
@@ -101,7 +120,7 @@ export default {
 
       console.log(actives)
       const { owner, repo, activeBranch: branch } = this.repoData
-      const { path: treePath } = actives[0]
+      const { path: treePath } = active
       console.log(treePath)
 
       this.setFullscreenLoading(true)
@@ -142,9 +161,9 @@ export default {
         item.children = this.sortChildren(children)
       }
     },
-    async getRepoTree () { // 只查一次
+    async getRepoTree () {
       const { owner, repo, activeBranch } = this.repoData
-      if (!owner || !repo) return
+      if (!owner || !repo || !activeBranch) return
 
       this.setDrawerLoading(true)
       const res = await getRepoTree({
@@ -161,7 +180,7 @@ export default {
       this.treeData = treeData
       this.lv2Ups = lv2Ups
     },
-    combTree (tree) { // 只调一次
+    combTree (tree) {
       if (!Array.isArray(tree)) return []
 
       const lv2Ups = [] // 2 级(含)以上的目录或文件

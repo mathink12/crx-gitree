@@ -130,8 +130,8 @@ export default {
         }
       }
     },
-    repoData ({ owner, repo }) {
-      if (!owner || !repo) return
+    repoData ({ owner, repo, activeBranch }) {
+      if (!owner || !repo || !activeBranch) return
 
       // 当有仓库数据时, 才判断是否要展开 drawer
       getCache(this.pinKey).then(res => {
@@ -144,6 +144,12 @@ export default {
         console.log('读取 pin 失败！')
       })
     }
+  },
+  created () {
+    this.$bus.$on('branch:refresh', this.getBaseData)
+    this.$on('hook:beforeDestroy', () => {
+      this.$bus.$off('branch:refresh', this.getBaseData)
+    })
   },
   mounted () {
     getCachedToken().then(res => {
@@ -210,27 +216,31 @@ export default {
           getOwnerRepo({ owner, repo }), // 当前仓库的基本信息(默认分支)
           getRepoBranches({ owner, repo }) // 当前仓库的所有分支
         ])
+        console.log(res1)
+        console.log(res2)
 
         const defaultBranch = res1.default_branch
         const branches = res2 || []
 
-        if (!defaultBranch) return
-
-        // 获取当前 url 的 pathname(某些情况下, 当 branch 中含有 / 时可能会被编码)
-        const decodedPathname = window.decodeURIComponent(window.location.pathname)
-        // 当前激活的分支默认使用默认分支
-        let activeBranch = defaultBranch
-        let branchName
-        for (let i = branches.length - 1; i >= 0; i--) {
-          branchName = branches[i].name
-          // branchName: feat/1.0.0
-          // branchName: docs/i18n
-          // branchName: fix/aa-bb
-          if (decodedPathname.indexOf(`/${branchName}/`) !== -1 ||
-              decodedPathname.endsWith(branchName)) {
-            // 如果当前分支名在 pathname 中, 则这个分支(可能)为活动分支
-            activeBranch = branchName
-            break
+        // if (!defaultBranch) return
+        let activeBranch
+        if (defaultBranch) {
+          // 获取当前 url 的 pathname(某些情况下, 当 branch 中含有 / 时可能会被编码)
+          const decodedPathname = window.decodeURIComponent(window.location.pathname)
+          let branchName
+          // 当前激活的分支默认使用默认分支
+          activeBranch = defaultBranch
+          for (let i = branches.length - 1; i >= 0; i--) {
+            branchName = branches[i].name
+            // branchName: feat/1.0.0
+            // branchName: docs/i18n
+            // branchName: fix/aa-bb
+            if (decodedPathname.indexOf(`/${branchName}/`) !== -1 ||
+                decodedPathname.endsWith(branchName)) {
+              // 如果当前分支名在 pathname 中, 则这个分支(可能)为活动分支
+              activeBranch = branchName
+              break
+            }
           }
         }
 

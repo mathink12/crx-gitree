@@ -14,6 +14,8 @@ import { initApi } from '@/api'
 
 Vue.config.productionTip = false
 
+Vue.prototype.$bus = new Vue()
+
 initApi()
 new Vue({
   store,

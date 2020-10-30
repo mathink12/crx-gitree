@@ -51,7 +51,11 @@ export default {
       newTab.location = 'https://gitee.com/profile/personal_access_tokens/new'
     },
     onRemoveToken () {
-      removeCachedToken().then(() => {})
+      removeCachedToken().then(() => {
+        this.setToken()
+        this.setActivePane('tree')
+        this.$bus.$emit('repo-tree:refresh')
+      })
     },
     onSubmit () {
       console.log(this.accessToken)
@@ -59,6 +63,7 @@ export default {
         console.log('保存成功！')
         this.setToken(this.accessToken)
         this.setActivePane('tree')
+        this.$bus.$emit('repo-tree:refresh')
       }).catch(e => {
         console.log('保存失败！')
       })
