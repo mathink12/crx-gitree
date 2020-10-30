@@ -11,8 +11,9 @@
     </v-btn>
 
     <v-navigation-drawer v-model="drawer" fixed stateless
-      @mouseleave.native="onMouseLeaveDrawer"
-      :style="{ zIndex }">
+      :width="drawerWidth"
+      :style="{ zIndex }"
+      @mouseleave.native="onMouseLeaveDrawer">
       <template #prepend>
         <v-list-item class="drawer-header">
           <v-list-item-content>
@@ -76,7 +77,12 @@
       </v-overlay>
     </v-navigation-drawer>
 
-    <v-overlay :value="fullscreenLoading" :z-index="zIndex + 1">
+    <ResizeTrigger v-model="drawerWidth"
+      :z-index="zIndex + 1"
+      :min-left="256"
+    />
+
+    <v-overlay :value="fullscreenLoading" :z-index="zIndex + 2">
       <v-progress-circular indeterminate size="50" />
     </v-overlay>
   </div>
@@ -88,16 +94,19 @@ import { setCache, getCache, getCachedToken } from '@/utils/cache'
 import { getOwnerRepo, getRepoBranches } from '@/api/gitee'
 import RepoTree from '@/components/repo-tree/RepoTree'
 import Settings from '@/components/Settings'
+import ResizeTrigger from '@/components/ResizeTrigger'
 
 export default {
   name: 'App',
   components: {
     RepoTree,
-    Settings
+    Settings,
+    ResizeTrigger
   },
   data () {
     return {
       drawer: false,
+      drawerWidth: 256,
       zIndex: 2020,
       pin: false, // 是否固定显示侧边栏
       pinKey: 'gitree_pin',
