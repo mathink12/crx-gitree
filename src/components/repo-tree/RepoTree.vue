@@ -23,13 +23,21 @@
       <FileIcon v-else class="mr-1 colored" :filename="item.path" />
     </template>
   </v-treeview>
-  <div v-else class="pa-2">
+  <div v-else class="pa-3">
     <p>
-      可能 Token 无效（非公开仓库需要添加 Token 才能加载）
+      <span v-if="token">当前用户授权码已过期，</span>
+      Gitree 暂未能获取数据，您可以按以下方法重试：
     </p>
-    <v-btn class="ml-2" color="primary" @click="onSetToken">
-      点击添加 Token
-    </v-btn>
+    <ul class="gitree-error-suggestion">
+      <li>
+        <v-btn color="primary" small @click="onSetToken">添加授权码</v-btn>
+        <span class="gitree-tip--secondary">，添加有效的授权码后，Gitree 可以获取公开仓库和私有仓库数据</span>
+      </li>
+      <li v-if="token" class="mt-2">
+        <v-btn small @click="onRemoveToken">删除授权码</v-btn>
+        <span class="gitree-tip--secondary">，删除后 Gitree 只能获取公开仓库数据</span>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -37,6 +45,7 @@
 import { concat, sortBy } from 'lodash'
 import { mapState, mapMutations } from 'vuex'
 import { treeData } from '@/mock'
+import { removeCachedToken } from '@/utils/cache'
 import { getRepoTree, getDomRender } from '@/api/gitee'
 import FileIcon from '@/components/file-icon/FileIcon'
 console.log(treeData)
@@ -55,11 +64,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['repoData'])
+    ...mapState(['repoData', 'token'])
   },
   watch: {
     repoData () {
-      this.getRepoTree()
+      // this.getRepoTree()
     }
   },
   mounted () {
@@ -83,6 +92,7 @@ export default {
       trees = sortBy(trees, 'path')
       blobs = sortBy(blobs, 'path')
       this.treeData = concat(trees, blobs)
+      this.treeData = []
     } else {
       this.getRepoTree()
     }
@@ -96,6 +106,11 @@ export default {
     ]),
     onSetToken () {
       this.setActivePane('settings')
+    },
+    onRemoveToken () {
+      removeCachedToken().then(() => {
+        this.getRepoTree()
+      })
     },
     onActive (actives) {
       const className = 'gitree-async-script'
@@ -239,6 +254,16 @@ export default {
   .gitreefont {
     font-size: 20px;
     color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.gitree-error-suggestion {
+  & > li {
+    line-height: 1.6;
+  }
+
+  .gitree-tip--secondary {
+    color: rgba(0, 0, 0, .7);
   }
 }
 </style>
