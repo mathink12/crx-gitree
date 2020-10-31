@@ -75,11 +75,15 @@
       <v-overlay :value="drawerLoading">
         <v-progress-circular indeterminate size="50" />
       </v-overlay>
+
+      <v-overlay :value="resizeOverlay" :opacity="0" style="cursor: col-resize;" />
     </v-navigation-drawer>
 
-    <ResizeTrigger v-model="drawerWidth"
+    <ResizeTrigger v-model="resizeTrigger.left"
       :z-index="zIndex + 1"
       :min-left="256"
+      @resize-ready="onResizeReady"
+      @resize-done="onResizeDone"
     />
 
     <v-overlay :value="fullscreenLoading" :z-index="zIndex + 2">
@@ -106,7 +110,11 @@ export default {
   data () {
     return {
       drawer: false,
-      drawerWidth: 256,
+      resizeTrigger: {
+        left: 252, // 256 - 8 / 2
+        width: 8
+      },
+      resizeOverlay: false,
       zIndex: 2020,
       pin: false, // 是否固定显示侧边栏
       pinKey: 'gitree_pin',
@@ -120,7 +128,11 @@ export default {
       'fullscreenLoading',
       'appSnackbar',
       'repoData'
-    ])
+    ]),
+    drawerWidth () {
+      const { left, width } = this.resizeTrigger
+      return left + width / 2
+    }
   },
   watch: {
     pin: {
@@ -208,6 +220,12 @@ export default {
       } else {
         this.setActivePane('settings')
       }
+    },
+    onResizeReady () {
+      this.resizeOverlay = true
+    },
+    onResizeDone () {
+      this.resizeOverlay = false
     },
     togglePin () {
       this.pin = !this.pin

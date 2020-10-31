@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { debounce } from 'lodash'
-import { getDefaultScrollbarWidth } from '@/utils/dom'
+import { throttle } from 'lodash'
+import { getPropVal, getDefaultScrollbarWidth } from '@/utils/dom'
 
 export default {
   name: 'ResizeTrigger',
@@ -35,22 +35,28 @@ export default {
   },
   data () {
     return {
-      left: this.value - this.width / 2,
+      left: this.value,
       canMove: false,
       deltaX: 0, // 鼠标按下时距离触发器左边的距离
-      scrollbarWidth: 0
+      scrollbarWidth: 0,
+      htmlStyle: {
+        cursor: '',
+        userSelect: ''
+      }
     }
   },
   mounted () {
     this.scrollbarWidth = getDefaultScrollbarWidth()
 
-    const debouncedMousemove = debounce(this.onMousemove)
+    const throttledMousemove = throttle(this.onMousemove, 100, {
+      trailing: true
+    })
 
-    window.addEventListener('mousemove', debouncedMousemove, false)
+    window.addEventListener('mousemove', throttledMousemove, false)
     window.addEventListener('mouseup', this.onMouseup, false)
 
     this.$on('hook:beforeDestroy', () => {
-      window.removeEventListener('mousemove', debouncedMousemove)
+      window.removeEventListener('mousemove', throttledMousemove)
       window.removeEventListener('mouseup', this.onMouseup)
     })
   },
@@ -58,7 +64,16 @@ export default {
     onMousedown (e) {
       this.deltaX = e.clientX - this.left
       this.canMove = true
-      document.body.style.userSelect = 'none'
+      this.$emit('resize-ready')
+
+      const html = document.documentElement
+      // 缓存原来的样式
+      this.htmlStyle = {
+        cursor: getPropVal(html, 'cursor'),
+        userSelect: getPropVal(html, 'user-select')
+      }
+      html.style.cursor = 'col-resize'
+      html.style.userSelect = 'none'
     },
     onMousemove (e) {
       if (!this.canMove) return
@@ -72,12 +87,17 @@ export default {
         left = maxLeft
       }
 
-      this.left = left - this.width / 2
+      this.left = left
       this.$emit('input', left)
     },
     onMouseup (e) {
       this.canMove = false
-      document.body.style.userSelect = ''
+      this.$emit('resize-done')
+
+      const { cursor, userSelect } = this.htmlStyle
+      const html = document.documentElement
+      html.style.cursor = cursor
+      html.style.userSelect = userSelect
     }
   }
 }
@@ -85,8 +105,8 @@ export default {
 
 <style lang="scss">
 .resize-trigger {
-  background: rgba(212, 212, 212, .5);
-  // background: transparent;
+  // background: rgba(212, 212, 212, .5);
+  background: transparent;
   cursor: col-resize;
   position: fixed;
   top: 0px;
