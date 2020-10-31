@@ -81,7 +81,7 @@
 
     <ResizeTrigger v-model="resizeTrigger.left"
       :z-index="zIndex + 1"
-      :min-left="256"
+      :min-left="200"
       @resize-ready="onResizeReady"
       @resize-done="onResizeDone"
     />
@@ -141,14 +141,24 @@ export default {
         console.log(val)
         // 使得网页的内容部分居中
         if (val) {
+          const { left } = this.resizeTrigger
           document.querySelectorAll('.ui.container').forEach(v => {
-            v.classList.add('translate-for-pin')
+            // v.classList.add('translate-for-pin')
+            v.style.transform = `translateX(${left / 2}px)`
           })
         } else {
           document.querySelectorAll('.ui.container').forEach(v => {
-            v.classList.remove('translate-for-pin')
+            // v.classList.remove('translate-for-pin')
+            v.style.transform = 'translateX(0)'
           })
         }
+      }
+    },
+    'resizeTrigger.left' (left) {
+      if (this.pin) {
+        document.querySelectorAll('.ui.container').forEach(v => {
+          v.style.transform = `translateX(${left / 2}px)`
+        })
       }
     },
     repoData ({ owner, repo, activeBranch }) {
