@@ -326,6 +326,7 @@ export default {
     position: fixed;
     top: 50%;
     left: 0;
+    z-index: 2020;
     transform: translateY(-100%) rotate(180deg);
     box-shadow: -1px -1px 5px #aaa;
 
