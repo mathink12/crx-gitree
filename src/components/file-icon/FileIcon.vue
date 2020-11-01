@@ -87,6 +87,9 @@ export default {
       // ruby
       if (['gemfile', 'gemfile.lock'].includes(filename)) return 'gitree-ruby'
 
+      // gitlab
+      if (['.gitlab-ci.yml', '.gitlab-ci.yaml'].includes(filename)) return 'gitree-gitlab'
+
       // jquery
       if (/\bjquery\b.{0,}\.(js|ts)$/.test(filename)) return 'gitree-jQuery'
 
