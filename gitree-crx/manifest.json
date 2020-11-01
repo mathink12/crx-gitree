@@ -2,7 +2,7 @@
   "name": "Gitree",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "Gitree",
+  "description": "让你更方便的浏览码云上的代码仓库",
   "icons": {
     "16": "dist/img/icons/gitree-16.png",
     "48": "dist/img/icons/gitree-38.png",

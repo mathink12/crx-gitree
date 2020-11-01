@@ -1,6 +1,6 @@
 module.exports = {
   filenameHashing: false,
-  outputDir: 'dist-crx/dist',
+  outputDir: 'gitree-crx/dist',
   productionSourceMap: false,
   devServer: {
     port: 3009,
