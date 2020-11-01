@@ -1,15 +1,23 @@
 <template>
-  <p v-if="!repoData.owner || !repoData.repo"
+  <div v-if="!repoData.owner || !repoData.repo"
     class="py-10 text-center repo-tree-no-data">
-    当前可能在非仓库页面
-  </p>
+    <p>当前可能在非仓库页面</p>
+    <v-btn class="mt-4" small color="primary" @click="onSetToken">
+      添加授权码
+    </v-btn>
+  </div>
   <div v-else-if="!repoData.activeBranch"
     class="py-10 text-center repo-tree-no-data">
     <p>Gitree 获取数据失败</p>
-    <v-btn class="mt-5"
-      @click="$bus.$emit('branch:refresh', repoData.owner, repoData.repo)">
-      点击重试
-    </v-btn>
+    <div class="mt-5">
+      <v-btn small
+        @click="$bus.$emit('branch:refresh', repoData.owner, repoData.repo)">
+        重试
+      </v-btn>
+      <v-btn class="ml-4" small color="primary" @click="onSetToken">
+        添加授权码
+      </v-btn>
+    </div>
   </div>
   <v-treeview v-else-if="Array.isArray(treeData) && treeData.length > 0"
     class="repo-tree"

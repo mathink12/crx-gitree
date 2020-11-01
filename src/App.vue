@@ -94,6 +94,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { getPropVal } from '@/utils/dom'
 import { setCache, getCache, getCachedToken } from '@/utils/cache'
 import { getOwnerRepo, getRepoBranches } from '@/api/gitee'
 import RepoTree from '@/components/repo-tree/RepoTree'
@@ -143,13 +144,25 @@ export default {
         if (val) {
           const { left } = this.resizeTrigger
           document.querySelectorAll('.ui.container').forEach(v => {
+            // 缓存当前元素原有的 transform 值, 当 drawer 收起的时候要恢复
+            v.setAttribute('data-gitree-original-transform', getPropVal(v, 'transform'))
             // v.classList.add('translate-for-pin')
-            v.style.transform = `translateX(${left / 2}px)`
+            // if (v.parentNode.classList.contains('session-wrapper')) {
+            //   // 是在登录页
+            // }
+            // TODO: 项目页面的判断标准
+            // if (document.body.classList.contains('git-project')) {
+            //   v.style.transform = `translateX(${left / 2}px)`
+            // }
+            if (!v.parentNode.classList.contains('session-wrapper')) {
+              // 当前不在登录页
+              v.style.transform = `translateX(${left / 2}px)`
+            }
           })
         } else {
           document.querySelectorAll('.ui.container').forEach(v => {
             // v.classList.remove('translate-for-pin')
-            v.style.transform = 'translateX(0)'
+            v.style.transform = v.getAttribute('data-gitree-original-transform')
           })
         }
       }
