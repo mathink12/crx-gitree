@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8608658",
+      "name": "tree",
+      "font_class": "tree",
+      "unicode": "ea97",
+      "unicode_decimal": 60055
+    },
+    {
+      "icon_id": "11286871",
+      "name": "tree",
+      "font_class": "tree-outline",
+      "unicode": "e93e",
+      "unicode_decimal": 59710
+    },
+    {
+      "icon_id": "17870205",
+      "name": "Nightwatch",
+      "font_class": "nightwatch",
+      "unicode": "e6e2",
+      "unicode_decimal": 59106
+    },
+    {
+      "icon_id": "17967846",
+      "name": "menu-down",
+      "font_class": "menu-down",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "17967845",
+      "name": "folder-open",
+      "font_class": "folder-open",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "17967844",
+      "name": "folder",
+      "font_class": "folder",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
       "icon_id": "13303504",
       "name": "gitlab",
       "font_class": "gitlab",
