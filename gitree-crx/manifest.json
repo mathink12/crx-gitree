@@ -61,5 +61,6 @@
     "https://*/*" // 可以通过executeScript或者insertCSS访问的网站
   ],
   // 插件主页
-  "homepage_url": "https://mathink12.github.io/toollab/#/json"
+  // "homepage_url": "https://mathink12.github.io/toollab/#/json"
+  "homepage_url": "https://gitee.com/mathink12/gitree-feedback"
 }

@@ -71,6 +71,7 @@ const gitreeIcons = {
   webp: 'gitree-image',
   ico: 'gitree-image',
   svg: 'gitree-svg',
+  zip: 'gitree-zip',
 
   json: 'gitree-json',
   json5: 'gitree-json',
